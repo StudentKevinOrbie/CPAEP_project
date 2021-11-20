@@ -8,31 +8,27 @@ module top_chip #(
     parameter int INPUT_NB_CHANNELS = 64,
     parameter int OUTPUT_NB_CHANNELS = 64,
     parameter int KERNEL_SIZE = 3
-  )
-  (input logic clk,
-   input logic arst_n_in,  //asynchronous reset, active low
+  )(input logic clk,
+    input logic arst_n_in,  //asynchronous reset, active low
 
-   //system input/output connections
-   inout wire [IO_DATA_WIDTH-1:0] con_1,
-   input logic con_1_valid,
-   output logic con_1_ready,
-   inout wire [IO_DATA_WIDTH-1:0] con_2,
-   input logic con_2_valid,
-   output logic con_2_ready,
-   inout wire [IO_DATA_WIDTH-1:0] con_3,
-   input logic con_3_valid,
-   output logic con_3_ready,
+    //system input/output connections
+    inout wire [IO_DATA_WIDTH-1:0] con_1,
+    inout wire [IO_DATA_WIDTH-1:0] con_2,
+    inout wire [IO_DATA_WIDTH-1:0] con_3,
 
-   //Control
-   output logic output_valid,
-   output logic [$clog2(FEATURE_MAP_WIDTH)-1:0] output_x,
-   output logic [$clog2(FEATURE_MAP_HEIGHT)-1:0] output_y,
-   output logic [$clog2(OUTPUT_NB_CHANNELS)-1:0] output_ch,
+    input logic con_valid,
+    output logic con_ready,
+
+    //Control
+    output logic output_valid,
+    output logic [$clog2(FEATURE_MAP_WIDTH)-1:0] output_x,
+    output logic [$clog2(FEATURE_MAP_HEIGHT)-1:0] output_y,
+    output logic [$clog2(OUTPUT_NB_CHANNELS)-1:0] output_ch,
    
-   input logic start,
-   output logic running,
+    input logic start,
+    output logic running,
 
-   output bit driving_cons
+    output logic driving_cons
   );
 
   // ================== SIGNALS ==================
@@ -54,11 +50,10 @@ module top_chip #(
 
   // ctrl
   logic ctrl_IDSS_shift;
-  logic ctrl_IDSS_LE_select;
-  logic ctrl_KDS_LE_select;
-  logic ctrl_ODS_sel_out;
+  logic [1:0] ctrl_IDSS_LE_select;
+  logic [11:0] ctrl_KDS_LE_select;
+  logic [1:0] ctrl_ODS_sel_out;
   logic ctrl_ODS_shift;
-  //logic driving_cons
 
   // ================== CONNECTIONS ==================
   assign ODS_in = mac_out;

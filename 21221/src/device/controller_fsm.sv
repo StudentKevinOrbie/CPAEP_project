@@ -12,7 +12,7 @@ module controller_fsm #(
   input logic start,
   output logic running,
 
-  //datapad control interface & external handshaking communication of a and b
+  //datapad control interface & external handshaking communication
   input logic con_valid,
   output logic con_ready,
 
@@ -21,8 +21,17 @@ module controller_fsm #(
   output logic output_valid,
   output logic [32-1:0] output_x,
   output logic [32-1:0] output_y,
-  output logic [32-1:0] output_ch
+  output logic [32-1:0] output_ch,
 
+  output logic ctrl_IDSS_shift,
+  output logic [1:0] ctrl_IDSS_LE_select,
+
+  output logic [11:0] ctrl_KDS_LE_select,
+
+  output logic ctrl_ODS_shift,
+  output logic [1:0] ctrl_ODS_sel_out, 
+
+  output logic driving_cons
   );
 
 
@@ -113,7 +122,6 @@ module controller_fsm #(
       current_state <= next_state;
     end
   end
-
 
   always_comb begin
     //defaults: applicable if not overwritten below

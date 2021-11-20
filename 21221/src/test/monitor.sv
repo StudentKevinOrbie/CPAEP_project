@@ -20,13 +20,13 @@ class Monitor #( config_t cfg);
       tract_output_3 = new();
 
       @(intf_i.cb iff intf_i.cb.output_valid);
-      tract_output_1.con_1 = intf_i.cb.con_1;
+      tract_output_1.output_data = intf_i.cb.from_con_1;
       tract_output_1.output_x = intf_i.cb.output_x;
       tract_output_1.output_y = intf_i.cb.output_y;
       tract_output_1.output_ch = intf_i.cb.output_ch;
 
-      tract_output_2.con_2 = intf_i.cb.con_2;
-      tract_output_3.con_3 = intf_i.cb.con_3;
+      tract_output_2.output_data = intf_i.cb.from_con_2;
+      tract_output_3.output_data = intf_i.cb.from_con_3;
       mon2chk.put(tract_output_1);
       mon2chk.put(tract_output_2);
       mon2chk.put(tract_output_3);
