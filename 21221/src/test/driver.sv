@@ -19,75 +19,13 @@ class Driver #(config_t cfg);
     $display("[DRV] ----- Reset Started -----");
      //asynchronous start of reset
     intf_i.cb.start   <= 0;
-    intf_i.cb.con_valid <= 0;
+    intf_i.cb.a_valid <= 0;
+    intf_i.cb.b_valid <= 0;
     intf_i.cb.arst_n  <= 0;
     repeat (2) @(intf_i.cb);
     intf_i.cb.arst_n  <= 1; //synchronous release of reset
     repeat (2) @(intf_i.cb);
     $display("[DRV] -----  Reset Ended  -----");
-  endtask
-
-  // Loads num_kernels to the dut
-  task load_kernels(input int start_ch_out, num_kernels, input Transaction_Kernel #(cfg) tract_kernel);
-    intf_i.cb.con_valid <= 1;
-
-    for (int outch = start_ch_out; outch < start_ch_out + num_kernels; outch++) begin
-
-      // Load entire Kernel
-      for(int kx = cfg.KERNEL_SIZE - 1; kx >= 0; kx++) begin
-        for(int inch = 0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
-          assert (!$isunknown(tract_kernel.kernel[0][kx][inch][outch]));
-          assert (!$isunknown(tract_kernel.kernel[1][kx][inch][outch]));
-          assert (!$isunknown(tract_kernel.kernel[2][kx][inch][outch]));
-          intf_i.cb.to_con_1 <= tract_kernel.kernel[0][kx][inch][outch];
-          intf_i.cb.to_con_2 <= tract_kernel.kernel[1][kx][inch][outch];
-          intf_i.cb.to_con_3 <= tract_kernel.kernel[2][kx][inch][outch];
-
-          @(intf_i.cb); // Wait 1 clock cycle
-        end
-      end
-      
-    end
-
-    intf_i.cb.con_valid <= 0;
-  endtask
-
-  // Loads a single input slide (12 Values) to the dut
-  task load_input_slice(input int start_x, start_y, input Transaction_Feature #(cfg) tract_feature);
-    intf_i.cb.con_valid <= 1;
-
-    for(int inch=0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
-      if (start_x == -1 || start_x >= cfg.FEATURE_MAP_WIDTH) begin
-        intf_i.cb.to_con_1 <= 0;
-        intf_i.cb.to_con_2 <= 0;
-        intf_i.cb.to_con_3 <= 0;
-      end else begin
-        if(start_y == -1 || start_y >= cfg.FEATURE_MAP_HEIGHT) begin
-          intf_i.cb.to_con_1 <= 0; // Zero pad
-        end else begin
-          assert (!$isunknown(tract_feature.inputs[start_y][start_x][inch]));
-          intf_i.cb.to_con_1 <= tract_feature.inputs[start_y][start_x][inch];
-        end
-
-        if(start_y + 1 >= cfg.FEATURE_MAP_HEIGHT) begin
-          intf_i.cb.to_con_2 <= 0; // Zero pad
-        end else begin
-          assert (!$isunknown(tract_feature.inputs[start_y + 1][start_x][inch]));
-          intf_i.cb.to_con_2 <= tract_feature.inputs[start_y + 1][start_x][inch];
-        end
-
-        if(start_y + 2 >= cfg.FEATURE_MAP_HEIGHT) begin
-          intf_i.cb.to_con_3 <= 0; // Zero pad
-        end else begin
-          assert (!$isunknown(tract_feature.inputs[start_y + 2][start_x][inch]));
-          intf_i.cb.to_con_3 <= tract_feature.inputs[start_y + 2][start_x][inch];
-        end
-      end
-
-      @(intf_i.cb);
-    end
-
-    intf_i.cb.con_valid <= 0;
   endtask
 
   task run();
@@ -112,29 +50,42 @@ class Driver #(config_t cfg);
       @(intf_i.cb);
       intf_i.cb.start <= 0;
 
+
+
       $display("[DRV] ----- Driving a new input feature map -----");
-      for(int outch=0; outch < cfg.OUTPUT_NB_CHANNELS; outch = outch + 6) begin
-        $display("[DRV] %.2f %% of the input is transferred", ((outch)*100.0)/cfg.OUTPUT_NB_CHANNELS);
+      for(int x=0;x<cfg.FEATURE_MAP_WIDTH; x++) begin
+        $display("[DRV] %.2f %% of the input is transferred", ((x)*100.0)/cfg.FEATURE_MAP_WIDTH);
+        for(int y=0;y<cfg.FEATURE_MAP_HEIGHT; y++) begin
+          for(int inch=0;inch<cfg.INPUT_NB_CHANNELS; inch++) begin
+            for(int outch=0;outch<cfg.OUTPUT_NB_CHANNELS; outch++) begin
+              for(int ky=0;ky<cfg.KERNEL_SIZE; ky++) begin
+                for(int kx=0;kx<cfg.KERNEL_SIZE; kx++) begin
 
-        if (outch == 30) begin
-          load_kernels(outch, 2, tract_kernel);
-        end else begin
-          load_kernels(outch, 6, tract_kernel);
-        end
+                  //drive a (one word from feature)
+                  intf_i.cb.a_valid <= 1;
+                  if( x+kx-cfg.KERNEL_SIZE/2 >= 0 && x+kx-cfg.KERNEL_SIZE/2 < cfg.FEATURE_MAP_WIDTH
+                    &&y+ky-cfg.KERNEL_SIZE/2 >= 0 && y+ky-cfg.KERNEL_SIZE/2 < cfg.FEATURE_MAP_HEIGHT) begin
+                    assert (!$isunknown(tract_feature.inputs[y+ky-cfg.KERNEL_SIZE/2 ][x+kx-cfg.KERNEL_SIZE/2][inch]));
+                    intf_i.cb.a_input <= tract_feature.inputs[y+ky-cfg.KERNEL_SIZE/2 ][x+kx-cfg.KERNEL_SIZE/2][inch];
+                  end else begin
+                    intf_i.cb.a_input <= 0; // zero padding for boundary cases
+                  end
+                  @(intf_i.cb iff intf_i.cb.a_ready);
+                  intf_i.cb.a_valid <= 0;
 
-        for(int y = -1; y <= cfg.FEATURE_MAP_HEIGHT - 2; y++) begin
-
-          load_input_slice(-1, y, tract_feature);
-          load_input_slice(0, y, tract_feature);
-          load_input_slice(1, y, tract_feature);
-
-          for(int x = 2; x <= cfg.FEATURE_MAP_WIDTH; x++) begin
-
-            load_input_slice(x, y, tract_feature);
-
+                  //drive a (one word from kernel)
+                  intf_i.cb.b_valid <= 1;
+                  assert (!$isunknown(tract_kernel.kernel[ky][kx][inch][outch]));
+                  intf_i.cb.b_input <= tract_kernel.kernel[ky][kx][inch][outch];
+                  @(intf_i.cb iff intf_i.cb.b_ready);
+                  intf_i.cb.b_valid <= 0;
+                end
+              end
+            end
           end
         end
       end
+
 
       $display("\n\n------------------\nLATENCY: input processed in %t\n------------------\n", $time() - starttime);
 

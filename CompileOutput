@@ -1,0 +1,1132 @@
+
+[r0702506@stud-r8-27 21221]$ make compile
+mkdir -p log csrc /users/students/r0702506/Documents/CPAED/21221/linter linter/csrc linter/log linter/out out
+source /users/micas/kgoetsch/software/path/add_vcs_to_path;\
+cd ./src; \
+vcs -full64 -sverilog -timescale=1ns/1ps +notimingchecks  -notice -top tbench_top -Mdir=../csrc  -l ../log/compile -o ../out/simv -f sourcefile_order
+                         Chronologic VCS (TM)
+         Version M-2017.03_Full64 -- Sat Nov 20 17:29:59 2021
+               Copyright (c) 1991-2017 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Warning : License for product VCSCompiler_Net(723) will expire within 20 days, on: 09-dec-2021.
+
+If you would like to temporarily disable this message, set
+ the VCS_LIC_EXPIRE_WARNING environment variable to the number of days
+before expiration that you want this message to start (the minimum is 0).
+Parsing design file 'rtl_building_blocks/device/adder.sv'
+Parsing design file 'rtl_building_blocks/device/multiplier.sv'
+Parsing design file 'rtl_building_blocks/device/register.sv'
+Parsing design file 'rtl_building_blocks/device/memory.sv'
+Parsing design file 'rtl_building_blocks/device/fifo.sv'
+Parsing design file 'rtl_building_blocks/device/mac.sv'
+Parsing design file 'device/CSS.sv'
+Parsing design file 'device/IDSS.sv'
+Parsing design file 'device/KDS.sv'
+Parsing design file 'device/ODS.sv'
+Parsing design file 'device/super_MAC.sv'
+Parsing design file 'device/controller_fsm.sv'
+Parsing design file 'device/top_chip.sv'
+Parsing design file 'device/top_system.sv'
+Parsing design file 'rtl_building_blocks/test/multiplier_tb.sv'
+Parsing design file 'rtl_building_blocks/test/adder_tb.sv'
+Parsing design file 'rtl_building_blocks/test/fifo_tb.sv'
+Parsing design file 'test/common.sv'
+Parsing design file 'test/intf.sv'
+Parsing design file 'test/transaction.sv'
+Parsing design file 'test/driver.sv'
+Parsing design file 'test/monitor.sv'
+Parsing design file 'test/generator.sv'
+Parsing design file 'test/checker.sv'
+Parsing design file 'test/scoreboard.sv'
+Parsing design file 'test/environment.sv'
+Parsing design file 'test/testprogram.sv'
+Parsing design file 'test/tbench_top.sv'
+Top Level Modules:
+       tbench_top
+TimeScale is 1 ns / 1 ps
+
+// --------------------------------------------------------------------
+// OK, as the 4th bit is only used for detecting if the FIFO is full
+
+Warning-[PCWM-W] Port connection width mismatch
+rtl_building_blocks/device/fifo.sv, 51
+"memory #(WIDTH, (1 << LOG2_OF_DEPTH), USE_AS_EXTERNAL_FIFO) fifo_mem( .clk (clk),  .read_addr (read_addr),  .read_en (output_ready),  .qout (qout),  .write_addr (write_addr),  .write_en (write_effective),  .din (din));"
+  The following 4-bit expression is connected to 3-bit port "read_addr" of
+  module "memory", instance "fifo_mem".
+  Expression: read_addr
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+rtl_building_blocks/device/fifo.sv, 51
+"memory #(WIDTH, (1 << LOG2_OF_DEPTH), USE_AS_EXTERNAL_FIFO) fifo_mem( .clk (clk),  .read_addr (read_addr),  .read_en (output_ready),  .qout (qout),  .write_addr (write_addr),  .write_en (write_effective),  .din (din));"
+  The following 4-bit expression is connected to 3-bit port "write_addr" of
+  module "memory", instance "fifo_mem".
+  Expression: write_addr
+      use +lint=PCWM for more details
+
+// --------------------------------------------------------------------
+Warning-[PCWM-W] Port connection width mismatch
+device/top_chip.sv, 132
+"controller_fsm controller_unit( .clk (clk),  .arst_n_in (arst_n_in),  .start (start),  .running (running),  .con_valid (con_valid),  .con_ready (con_ready),  .output_valid (output_valid),  .output_x (output_x),  .output_y (output_y),  .output_ch (output_ch),  .ctrl_IDSS_shift (ctrl_to_IDSS_shift),  .ctrl_IDSS_LE_select (ctrl_to_IDSS_LE_select),  .ctrl_KDS_LE_select (ctrl_to_KDS_LE_select),  .ctrl_ODS_shift (ctrl_to_ODS_shift),  .ctrl_ODS_sel_out (ctrl_to_ODS_sel_out),  .driving_cons (driving_cons));"
+  The following 6-bit expression is connected to 32-bit port "output_x" of
+  module "controller_fsm", instance "controller_unit".
+  Expression: output_x
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/top_chip.sv, 132
+"controller_fsm controller_unit( .clk (clk),  .arst_n_in (arst_n_in),  .start (start),  .running (running),  .con_valid (con_valid),  .con_ready (con_ready),  .output_valid (output_valid),  .output_x (output_x),  .output_y (output_y),  .output_ch (output_ch),  .ctrl_IDSS_shift (ctrl_to_IDSS_shift),  .ctrl_IDSS_LE_select (ctrl_to_IDSS_LE_select),  .ctrl_KDS_LE_select (ctrl_to_KDS_LE_select),  .ctrl_ODS_shift (ctrl_to_ODS_shift),  .ctrl_ODS_sel_out (ctrl_to_ODS_sel_out),  .driving_cons (driving_cons));"
+  The following 6-bit expression is connected to 32-bit port "output_y" of
+  module "controller_fsm", instance "controller_unit".
+  Expression: output_y
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/top_chip.sv, 132
+"controller_fsm controller_unit( .clk (clk),  .arst_n_in (arst_n_in),  .start (start),  .running (running),  .con_valid (con_valid),  .con_ready (con_ready),  .output_valid (output_valid),  .output_x (output_x),  .output_y (output_y),  .output_ch (output_ch),  .ctrl_IDSS_shift (ctrl_to_IDSS_shift),  .ctrl_IDSS_LE_select (ctrl_to_IDSS_LE_select),  .ctrl_KDS_LE_select (ctrl_to_KDS_LE_select),  .ctrl_ODS_shift (ctrl_to_ODS_shift),  .ctrl_ODS_sel_out (ctrl_to_ODS_sel_out),  .driving_cons (driving_cons));"
+  The following 5-bit expression is connected to 32-bit port "output_ch" of
+  module "controller_fsm", instance "controller_unit".
+  Expression: output_ch
+      use +lint=PCWM for more details
+
+// --------------------------------------------------------------------
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_1_out),  .input_valid (1),  .qout (out[(3 * 0)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[0].fifo_1".
+  Expression: genblk1[0].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_1_out),  .input_valid (1),  .qout (out[(3 * 0)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[0].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_1_out),  .input_valid (1),  .qout (out[(3 * 0)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[0].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_2_out),  .input_valid (1),  .qout (out[((3 * 0) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[0].fifo_2".
+  Expression: genblk1[0].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_2_out),  .input_valid (1),  .qout (out[((3 * 0) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[0].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_2_out),  .input_valid (1),  .qout (out[((3 * 0) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[0].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_3_out),  .input_valid (1),  .qout (out[((3 * 0) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[0].fifo_3".
+  Expression: genblk1[0].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_3_out),  .input_valid (1),  .qout (out[((3 * 0) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[0].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_3_out),  .input_valid (1),  .qout (out[((3 * 0) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[0].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_1_out),  .input_valid (1),  .qout (out[(3 * 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[1].fifo_1".
+  Expression: genblk1[1].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_1_out),  .input_valid (1),  .qout (out[(3 * 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[1].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_1_out),  .input_valid (1),  .qout (out[(3 * 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[1].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_2_out),  .input_valid (1),  .qout (out[((3 * 1) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[1].fifo_2".
+  Expression: genblk1[1].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_2_out),  .input_valid (1),  .qout (out[((3 * 1) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[1].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_2_out),  .input_valid (1),  .qout (out[((3 * 1) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[1].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_3_out),  .input_valid (1),  .qout (out[((3 * 1) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[1].fifo_3".
+  Expression: genblk1[1].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_3_out),  .input_valid (1),  .qout (out[((3 * 1) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[1].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_3_out),  .input_valid (1),  .qout (out[((3 * 1) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[1].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_1_out),  .input_valid (1),  .qout (out[(3 * 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[2].fifo_1".
+  Expression: genblk1[2].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_1_out),  .input_valid (1),  .qout (out[(3 * 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[2].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_1_out),  .input_valid (1),  .qout (out[(3 * 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[2].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_2_out),  .input_valid (1),  .qout (out[((3 * 2) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[2].fifo_2".
+  Expression: genblk1[2].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_2_out),  .input_valid (1),  .qout (out[((3 * 2) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[2].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_2_out),  .input_valid (1),  .qout (out[((3 * 2) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[2].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_3_out),  .input_valid (1),  .qout (out[((3 * 2) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[2].fifo_3".
+  Expression: genblk1[2].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_3_out),  .input_valid (1),  .qout (out[((3 * 2) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[2].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_3_out),  .input_valid (1),  .qout (out[((3 * 2) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[2].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_1_out),  .input_valid (1),  .qout (out[(3 * 3)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[3].fifo_1".
+  Expression: genblk1[3].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_1_out),  .input_valid (1),  .qout (out[(3 * 3)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[3].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_1_out),  .input_valid (1),  .qout (out[(3 * 3)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[3].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_2_out),  .input_valid (1),  .qout (out[((3 * 3) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[3].fifo_2".
+  Expression: genblk1[3].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_2_out),  .input_valid (1),  .qout (out[((3 * 3) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[3].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_2_out),  .input_valid (1),  .qout (out[((3 * 3) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[3].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_3_out),  .input_valid (1),  .qout (out[((3 * 3) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[3].fifo_3".
+  Expression: genblk1[3].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_3_out),  .input_valid (1),  .qout (out[((3 * 3) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[3].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_3_out),  .input_valid (1),  .qout (out[((3 * 3) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[3].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_1_out),  .input_valid (1),  .qout (out[(3 * 4)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[4].fifo_1".
+  Expression: genblk1[4].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_1_out),  .input_valid (1),  .qout (out[(3 * 4)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[4].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_1_out),  .input_valid (1),  .qout (out[(3 * 4)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[4].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_2_out),  .input_valid (1),  .qout (out[((3 * 4) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[4].fifo_2".
+  Expression: genblk1[4].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_2_out),  .input_valid (1),  .qout (out[((3 * 4) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[4].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_2_out),  .input_valid (1),  .qout (out[((3 * 4) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[4].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_3_out),  .input_valid (1),  .qout (out[((3 * 4) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[4].fifo_3".
+  Expression: genblk1[4].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_3_out),  .input_valid (1),  .qout (out[((3 * 4) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[4].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_3_out),  .input_valid (1),  .qout (out[((3 * 4) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[4].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_1_out),  .input_valid (1),  .qout (out[(3 * 5)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[5].fifo_1".
+  Expression: genblk1[5].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_1_out),  .input_valid (1),  .qout (out[(3 * 5)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[5].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_1_out),  .input_valid (1),  .qout (out[(3 * 5)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[5].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_2_out),  .input_valid (1),  .qout (out[((3 * 5) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[5].fifo_2".
+  Expression: genblk1[5].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_2_out),  .input_valid (1),  .qout (out[((3 * 5) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[5].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_2_out),  .input_valid (1),  .qout (out[((3 * 5) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[5].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_3_out),  .input_valid (1),  .qout (out[((3 * 5) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[5].fifo_3".
+  Expression: genblk1[5].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_3_out),  .input_valid (1),  .qout (out[((3 * 5) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[5].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_3_out),  .input_valid (1),  .qout (out[((3 * 5) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[5].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_1_out),  .input_valid (1),  .qout (out[(3 * 6)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[6].fifo_1".
+  Expression: genblk1[6].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_1_out),  .input_valid (1),  .qout (out[(3 * 6)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[6].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_1_out),  .input_valid (1),  .qout (out[(3 * 6)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[6].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_2_out),  .input_valid (1),  .qout (out[((3 * 6) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[6].fifo_2".
+  Expression: genblk1[6].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_2_out),  .input_valid (1),  .qout (out[((3 * 6) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[6].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_2_out),  .input_valid (1),  .qout (out[((3 * 6) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[6].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_3_out),  .input_valid (1),  .qout (out[((3 * 6) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[6].fifo_3".
+  Expression: genblk1[6].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_3_out),  .input_valid (1),  .qout (out[((3 * 6) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[6].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_3_out),  .input_valid (1),  .qout (out[((3 * 6) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[6].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_1_out),  .input_valid (1),  .qout (out[(3 * 7)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[7].fifo_1".
+  Expression: genblk1[7].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_1_out),  .input_valid (1),  .qout (out[(3 * 7)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[7].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_1_out),  .input_valid (1),  .qout (out[(3 * 7)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[7].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_2_out),  .input_valid (1),  .qout (out[((3 * 7) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[7].fifo_2".
+  Expression: genblk1[7].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_2_out),  .input_valid (1),  .qout (out[((3 * 7) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[7].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_2_out),  .input_valid (1),  .qout (out[((3 * 7) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[7].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_3_out),  .input_valid (1),  .qout (out[((3 * 7) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[7].fifo_3".
+  Expression: genblk1[7].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_3_out),  .input_valid (1),  .qout (out[((3 * 7) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[7].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_3_out),  .input_valid (1),  .qout (out[((3 * 7) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[7].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_1_out),  .input_valid (1),  .qout (out[(3 * 8)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[8].fifo_1".
+  Expression: genblk1[8].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_1_out),  .input_valid (1),  .qout (out[(3 * 8)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[8].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_1_out),  .input_valid (1),  .qout (out[(3 * 8)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[8].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_2_out),  .input_valid (1),  .qout (out[((3 * 8) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[8].fifo_2".
+  Expression: genblk1[8].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_2_out),  .input_valid (1),  .qout (out[((3 * 8) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[8].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_2_out),  .input_valid (1),  .qout (out[((3 * 8) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[8].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_3_out),  .input_valid (1),  .qout (out[((3 * 8) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[8].fifo_3".
+  Expression: genblk1[8].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_3_out),  .input_valid (1),  .qout (out[((3 * 8) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[8].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_3_out),  .input_valid (1),  .qout (out[((3 * 8) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[8].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_1_out),  .input_valid (1),  .qout (out[(3 * 9)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[9].fifo_1".
+  Expression: genblk1[9].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_1_out),  .input_valid (1),  .qout (out[(3 * 9)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[9].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_1_out),  .input_valid (1),  .qout (out[(3 * 9)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[9].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_2_out),  .input_valid (1),  .qout (out[((3 * 9) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[9].fifo_2".
+  Expression: genblk1[9].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_2_out),  .input_valid (1),  .qout (out[((3 * 9) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[9].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_2_out),  .input_valid (1),  .qout (out[((3 * 9) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[9].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_3_out),  .input_valid (1),  .qout (out[((3 * 9) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[9].fifo_3".
+  Expression: genblk1[9].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_3_out),  .input_valid (1),  .qout (out[((3 * 9) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[9].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_3_out),  .input_valid (1),  .qout (out[((3 * 9) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[9].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_1_out),  .input_valid (1),  .qout (out[(3 * 10)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[10].fifo_1".
+  Expression: genblk1[10].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_1_out),  .input_valid (1),  .qout (out[(3 * 10)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[10].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_1_out),  .input_valid (1),  .qout (out[(3 * 10)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[10].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_2_out),  .input_valid (1),  .qout (out[((3 * 10) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[10].fifo_2".
+  Expression: genblk1[10].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_2_out),  .input_valid (1),  .qout (out[((3 * 10) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[10].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_2_out),  .input_valid (1),  .qout (out[((3 * 10) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[10].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_3_out),  .input_valid (1),  .qout (out[((3 * 10) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[10].fifo_3".
+  Expression: genblk1[10].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_3_out),  .input_valid (1),  .qout (out[((3 * 10) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[10].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_3_out),  .input_valid (1),  .qout (out[((3 * 10) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[10].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_1_out),  .input_valid (1),  .qout (out[(3 * 11)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[11].fifo_1".
+  Expression: genblk1[11].mux_1_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_1_out),  .input_valid (1),  .qout (out[(3 * 11)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[11].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 40
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_1_out),  .input_valid (1),  .qout (out[(3 * 11)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[11].fifo_1".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_2_out),  .input_valid (1),  .qout (out[((3 * 11) + 1)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[11].fifo_2".
+  Expression: genblk1[11].mux_2_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_2_out),  .input_valid (1),  .qout (out[((3 * 11) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[11].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 52
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_2_out),  .input_valid (1),  .qout (out[((3 * 11) + 1)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[11].fifo_2".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_3_out),  .input_valid (1),  .qout (out[((3 * 11) + 2)]),  .output_ready (1));"
+  The following 1-bit expression is connected to 16-bit port "din" of module
+  "fifo", instance "genblk1[11].fifo_3".
+  Expression: genblk1[11].mux_3_out
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_3_out),  .input_valid (1),  .qout (out[((3 * 11) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "input_valid" of
+  module "fifo", instance "genblk1[11].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+device/KDS.sv, 64
+" fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_3_out),  .input_valid (1),  .qout (out[((3 * 11) + 2)]),  .output_ready (1));"
+  The following 32-bit expression is connected to 1-bit port "output_ready" of
+  module "fifo", instance "genblk1[11].fifo_3".
+  Expression: 1
+      use +lint=PCWM for more details
+
+Warning : License for product VT_Testbench(772) will expire within 20 days, on: 09-dec-2021.
+
+If you would like to temporarily disable this message, set
+ the VCS_LIC_EXPIRE_WARNING environment variable to the number of days
+before expiration that you want this message to start (the minimum is 0).
+
+Lint-[PCTI-L] Ports coerced to input
+test/testprogram.sv, 1
+"intf_i"
+  Port "intf_i" declared as inout in module "testprogram" does not have any
+  load in parent module or is connected to constant, it may need to be input.
+  Coercing to input.
+
+Starting vcs inline pass...
+
+13 unique modules to generate
+Generating code for _VCSgd_hEeZs
+recompiling package vcs_paramclassrepository
+Generating code for _VCSgd_R2RjM
+Generating code for _VCSgd_reYIK
+Generating code for _VCSgd_Qq4Ev
+recompiling module adder
+Generating code for _VCSgd_m6KP2
+recompiling module multiplier
+Generating code for _VCSgd_DAC4W
+recompiling module register
+Generating code for _VCSgd_mKAZ0
+Generating code for _VCSgd_BWIbP
+recompiling module fifo
+Generating code for _VCSgd_kuV8c
+recompiling module CSS
+Generating code for _VCSgd_WuvP5
+recompiling module IDSS
+Generating code for _VCSgd_wN17R
+recompiling module KDS
+Generating code for _VCSgd_MaWKp
+recompiling module super_MAC
+Generating code for _VCSgd_zkDLe
+recompiling module top_system
+Generating code for _VCSgd_k6LTY
+recompiling module intf
+Generating code for _VCSgd_arjKm
+recompiling module testprogram
+Generating code for _VCSgd_Mk7In
+recompiling module tbench_top
+All of 13 modules done
+Warning : License for product VCSCompiler_Net(723) will expire within 20 days, on: 09-dec-2021.
+
+If you would like to temporarily disable this message, set
+ the VCS_LIC_EXPIRE_WARNING environment variable to the number of days
+before expiration that you want this message to start (the minimum is 0).
+make[1]: Entering directory '/users/students/r0702506/Documents/CPAED/21221/csrc'
+make[1]: Leaving directory '/users/students/r0702506/Documents/CPAED/21221/csrc'
+make[1]: Entering directory '/users/students/r0702506/Documents/CPAED/21221/csrc'
+rm -f _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x /users/students/r0702506/Documents/CPAED/21221/src/../out/simv ]; then chmod -x /users/students/r0702506/Documents/CPAED/21221/src/../out/simv; fi
+g++  -o /users/students/r0702506/Documents/CPAED/21221/src/../out/simv   -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ -Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic   objs/amcQw_d.o   _15483_archive_1.so  SIM_l.o       rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/libzerosoft_rt_stubs.so /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/libvirsim.so /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/liberrorinf.so /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/libsnpsmalloc.so    /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/libvcsnew.so /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/libsimprofile.so /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/libuclinative.so /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/vcs_tls.o   -Wl,-whole-archive /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/libvcsucli.so -Wl,-no-whole-archive          /esat/micas-data/software/Synopsys/vcs_2017.03/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl
+/users/students/r0702506/Documents/CPAED/21221/src/../out/simv up to date
+make[1]: Leaving directory '/users/students/r0702506/Documents/CPAED/21221/csrc'
+CPU time: .609 seconds to compile + .390 seconds to elab + .168 seconds to link
+[r0702506@stud-r8-27 21221]$ 

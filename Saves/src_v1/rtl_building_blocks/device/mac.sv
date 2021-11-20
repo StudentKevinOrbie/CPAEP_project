@@ -45,7 +45,6 @@ module mac #(
      .b(b),
      .out(product));
 
-
   //makes register with we accumulator_value_we, qout accumulator_value, din accumulator_value_next, clk clk and arst_n_in arst_n_in
   //see register.sv
   `REG(ACCUMULATOR_WIDTH, accumulator_value);

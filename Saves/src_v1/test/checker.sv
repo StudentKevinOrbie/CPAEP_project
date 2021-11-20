@@ -87,22 +87,36 @@ class Checker #(config_t cfg);
       gen2chk_feature.get(tract_feature);
       forever // run until all the words for the current output are checked
       begin
-        logic signed [cfg.DATA_WIDTH] expected;
-        bit output_correct;
-        Transaction_Output_Word #(cfg) tract_output;
-        mon2chk.get(tract_output);
+        logic signed [cfg.DATA_WIDTH] expected_1;
+        logic signed [cfg.DATA_WIDTH] expected_2;
+        logic signed [cfg.DATA_WIDTH] expected_3;
 
-        expected = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
-                      tract_output.output_x, tract_output.output_y, tract_output.output_ch);
+        bit output_correct;
+        Transaction_Output_Word #(cfg) tract_output_1, tract_output_2, tract_output_3;
+        mon2chk.get(tract_output_1);
+        mon2chk.get(tract_output_2);
+        mon2chk.get(tract_output_3);
+
+        expected_1 = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
+                      tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch);
+        expected_2 = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
+                      tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch + 1);
+        expected_3 = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
+                      tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch + 2);
 
         // Make sure there are no Xs
-        assert (!$isunknown(tract_output.output_data)) else $stop;
-        assert (!$isunknown(tract_output.output_x)) else $stop;
-        assert (!$isunknown(tract_output.output_y)) else $stop;
-        assert (!$isunknown(tract_output.output_ch)) else $stop;
-        assert (!$isunknown(expected)) else $stop;
-
-        assert (!output_tested[tract_output.output_x][tract_output.output_y][tract_output.output_ch]) else
+        assert (!$isunknown(tract_output_1.output_data)) else $stop;
+        assert (!$isunknown(tract_output_1.output_x)) else $stop;
+        assert (!$isunknown(tract_output_1.output_y)) else $stop;
+        assert (!$isunknown(tract_output_1.output_ch)) else $stop;
+        assert (!$isunknown(tract_output_2.output_data)) else $stop;
+        assert (!$isunknown(tract_output_3.output_data)) else $stop;
+        assert (!$isunknown(expected_1)) else $stop;
+        assert (!$isunknown(expected_2)) else $stop;
+        assert (!$isunknown(expected_3)) else $stop;
+	
+	      // Check if two times the same data read
+        assert (!output_tested[tract_output_1.output_x][tract_output_1.output_y][tract_output_1.output_ch]) else
         begin
           $error("\
             An output word is being received twice, or dimensions output_x, etc are corrupted.\n\
@@ -110,9 +124,9 @@ class Checker #(config_t cfg);
             output_valid should be high for only 1 cycle for every valid output_data\n");
           $stop;
         end
-        output_tested[tract_output.output_x][tract_output.output_y][tract_output.output_ch] = 1;
+        output_tested[tract_output_1.output_x][tract_output_1.output_y][tract_output_1.output_ch] = 1;
 
-        output_correct = (expected == tract_output.output_data);
+        output_correct = (expected_1 == tract_output_1.output_data) & (expected_2 == tract_output_2.output_data) & (expected_3 == tract_output_3.output_data);
         no_error_in_full_output_frame = no_error_in_full_output_frame & output_correct;
         if(output_correct) begin
           if (verbose) $display("[CHK] Result is correct");
