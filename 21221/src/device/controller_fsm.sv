@@ -77,7 +77,7 @@ module controller_fsm #(
 
   //mark outputs
   `REG(1, output_valid_reg);
-  assign output_valid_reg_next = inc_x ;
+  assign output_valid_reg_next = inc_x ; // TODO: add another condition
   assign output_valid_reg_we   = 1;
   assign output_valid = output_valid_reg;
 
@@ -94,6 +94,7 @@ module controller_fsm #(
                                                 .qout(output_ch),
                                                 .we(inc_x ));
 
+  // Counters
   logic last_partial_load_K;
   logic last_partial_load_I;
   logic last_load_K;
@@ -103,6 +104,9 @@ module controller_fsm #(
   
   assign last_partial_load_K = (load_K_counter == 0);
   assign last_partial_load_I = (load_I_counter == 0);
+
+  // Flags
+  `REG(1, calc_1_done); // During the first calculation, no output ready, due to pipelining
   
   // ======================================== Control FSM ========================================
 
@@ -136,6 +140,9 @@ module controller_fsm #(
     load_K_counter_next = load_K_counter;
     load_I_counter_we = 1;
     load_K_counter_we = 1;
+
+    calc_1_done_next = calc_1_done;
+    calc_1_done_we = 1;
 
     case (current_state)
       // IDLE
@@ -264,6 +271,7 @@ module controller_fsm #(
 
       LI_shift: begin
         ctrl_IDSS_shift = 1;
+        calc_1_done_next = 0; // Reset flag
 
         load_I_counter_next = load_I_counter - 1;
         next_state = (last_partial_load_I) ? CC_1 : LI_1;
@@ -273,7 +281,8 @@ module controller_fsm #(
       CC_1: begin
         con_ready = 1;
         ctrl_IDSS_LE_select = 2'b00;
-        ctrl_ODS_sel_out = 2'b00;
+        ctrl_ODS_sel_out = 2'b00; // ODS: in --> reg_1_1
+        ctrl_ODS_shift = 1;       // ODS: shift first 3 values
 
         next_state = CC_2;
       end
@@ -281,7 +290,7 @@ module controller_fsm #(
       CC_2: begin
         con_ready = 1;
         ctrl_IDSS_LE_select = 2'b01; 
-        ctrl_ODS_sel_out = 2'b01;
+        ctrl_ODS_sel_out = 2'b01; // ODS: in --> reg_2_1
 
         next_state = CC_3;
       end
@@ -290,7 +299,7 @@ module controller_fsm #(
         con_ready = 1;
         ctrl_IDSS_LE_select = 2'b10;
         ctrl_IDSS_shift = 1;
-        ctrl_ODS_sel_out = 2'b10;
+        ctrl_ODS_sel_out = 2'b10; // ODS: in --> reg_3_1
 
         next_state = CC_4;
       end
@@ -298,27 +307,28 @@ module controller_fsm #(
       CC_4: begin
         con_ready = 1;
         ctrl_IDSS_LE_select = 2'b11; 
-        ctrl_ODS_sel_out = 2'b00; 
-        driving_cons = 1; 
+        ctrl_ODS_sel_out = 2'b00;  // ODS: in --> reg_1_1
+        ctrl_ODS_shift = 1;        // ODS: shift first 3 values to out
 
         next_state = CC_5;
       end
 
       CC_5: begin
         con_ready = 1;
-        ctrl_ODS_sel_out = 2'b01; 
-        driving_cons = 1; 
+        ctrl_ODS_sel_out = 2'b01;  // ODS: in --> reg_2_1
+        ctrl_ODS_shift = 1;        // ODS: shift second 3 values to out
+        driving_cons = 1;
         
         next_state = CC_6;
       end
 
       CC_6: begin
         con_ready = 1;
-        ctrl_ODS_sel_out = 2'b10; 
+        ctrl_ODS_sel_out = 2'b10;  // ODS: in --> reg_3_1
         ctrl_IDSS_shift = 1; 
-        ctrl_ODS_shift = 1; 
         driving_cons = 1; 
-        inc_x = 1; // Should only happen if output is "valid" --> Delayed due to pipeline
+        inc_x = (calc_1_done) ? 0 : 1; // happens only if output is "valid" --> Delayed due to pipeline
+        calc_1_done_next = 1;
 
         load_K_counter_next = 3'b101; //5
         load_I_counter_next = 2'b10;  //2

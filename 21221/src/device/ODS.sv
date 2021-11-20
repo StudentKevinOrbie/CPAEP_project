@@ -14,15 +14,20 @@ module ODS #(
   );
 
   // r_row_col
-  //       --> r_1_1 --> r_1_2 -- out_1 -->
-  // -- in --> r_2_1 --> r_2_2 -- out_2 -->
-  //       --> r_3_1 --> r_3_2 -- out_3 -->
+  //       --> r_1_1 --> r_1_2 --> r_1_3 -- out_1 -->
+  // -- in --> r_2_1 --> r_2_2 --> r_2_3 -- out_2 -->
+  //       --> r_3_1 --> r_3_2 --> r_3_3 -- out_3 -->
   `REG(IO_DATA_WIDTH, r_1_1);
   `REG(IO_DATA_WIDTH, r_1_2);
+  `REG(IO_DATA_WIDTH, r_1_3);
+
   `REG(IO_DATA_WIDTH, r_2_1);
   `REG(IO_DATA_WIDTH, r_2_2);
+  `REG(IO_DATA_WIDTH, r_2_3);
+
   `REG(IO_DATA_WIDTH, r_3_1);
   `REG(IO_DATA_WIDTH, r_3_2);
+  `REG(IO_DATA_WIDTH, r_3_3);
 
   // ------------ Connections ------------
   // Passing values
@@ -34,13 +39,21 @@ module ODS #(
   assign r_2_2_next = r_2_1;
   assign r_3_2_next = r_3_1;
 
-  assign out_1 = r_1_2;
-  assign out_2 = r_2_2;
-  assign out_3 = r_3_2;
+  assign r_1_3_next = r_1_2;
+  assign r_2_3_next = r_2_2;
+  assign r_3_3_next = r_3_2;
+
+  assign out_1 = r_1_3;
+  assign out_2 = r_2_3;
+  assign out_3 = r_3_3;
 
   assign r_1_2_we = shift;
   assign r_2_2_we = shift;
   assign r_3_2_we = shift;
+
+  assign r_1_3_we = shift;
+  assign r_2_3_we = shift;
+  assign r_3_3_we = shift;
 
   // Write Enables
   always @(clk)
