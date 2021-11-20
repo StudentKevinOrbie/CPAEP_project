@@ -94,7 +94,7 @@ adder #( .A_WIDTH(ACCUMULATOR_WIDTH),
 add_1_4
     (.a(sum_sub_2[0]),
      .b(sum_sub_2[1]),
-     .out(sum_2_next[0:ACCUMULATOR_WIDTH*1-1]));
+     .out(sum_2_next[0 +: ACCUMULATOR_WIDTH]));
 
 adder #( .A_WIDTH(ACCUMULATOR_WIDTH),
          .B_WIDTH(ACCUMULATOR_WIDTH),
@@ -103,9 +103,9 @@ adder #( .A_WIDTH(ACCUMULATOR_WIDTH),
 add_2_4
     (.a(sum_sub_2[2]),
      .b(sum_sub_2[3]),
-     .out(sum_2_next[ACCUMULATOR_WIDTH*1:ACCUMULATOR_WIDTH*2-1]));
+     .out(sum_2_next[ACCUMULATOR_WIDTH*1 +: ACCUMULATOR_WIDTH]));
 
-assign sum_2_next[ACCUMULATOR_WIDTH*2:ACCUMULATOR_WIDTH*3-1] = sum_1[ACCUMULATOR_WIDTH*8: ACCUMULATOR_WIDTH*9-1];
+assign sum_2_next[ACCUMULATOR_WIDTH*2 +: ACCUMULATOR_WIDTH] = sum_1[ACCUMULATOR_WIDTH*8 +: ACCUMULATOR_WIDTH];
 
 // ADDER: 1
 logic signed [ACCUMULATOR_WIDTH-1:0] sum_sub_3;
@@ -116,8 +116,8 @@ adder #( .A_WIDTH(ACCUMULATOR_WIDTH),
          .OUT_WIDTH(ACCUMULATOR_WIDTH),
          .OUT_SCALE(0))
 add_1_5
-    (.a(sum_2[0:ACCUMULATOR_WIDTH-1]),
-     .b(sum_2[ACCUMULATOR_WIDTH:2*ACCUMULATOR_WIDTH-1]),
+    (.a(sum_2[0 +: ACCUMULATOR_WIDTH]),
+     .b(sum_2[ACCUMULATOR_WIDTH +: ACCUMULATOR_WIDTH]),
      .out(sum_sub_3));
 
 // ADDER: 1
@@ -127,7 +127,7 @@ adder #( .A_WIDTH(ACCUMULATOR_WIDTH),
          .OUT_SCALE(0))
 add_last
     (.a(sum_sub_3),
-     .b(sum_2[ACCUMULATOR_WIDTH*2:ACCUMULATOR_WIDTH*3-1]),
+     .b(sum_2[ACCUMULATOR_WIDTH*2 +: ACCUMULATOR_WIDTH]),
      .out(sum_3));
 
 assign out = sum_3;
