@@ -48,13 +48,6 @@ module top_chip #(
   logic [IO_DATA_WIDTH-1:0] IDSS_to_MAC [35:0];
   logic [IO_DATA_WIDTH-1:0] KDS_to_MAC [35:0];
 
-  // ctrl
-  logic ctrl_IDSS_shift;
-  logic [1:0] ctrl_IDSS_LE_select;
-  logic [11:0] ctrl_KDS_LE_select;
-  logic [1:0] ctrl_ODS_sel_out;
-  logic ctrl_ODS_shift;
-
   // ================== CONNECTIONS ==================
   assign ODS_in = mac_out;
 
@@ -128,5 +121,39 @@ module top_chip #(
   ); 
   // ================== CONTROL ==================
   // LOOP COUNTERS + TOTAL FSM
+
+  // ctrl
+  logic ctrl_IDSS_shift;
+  logic [1:0] ctrl_IDSS_LE_select;
+  logic [11:0] ctrl_KDS_LE_select;
+  logic [1:0] ctrl_ODS_sel_out;
+  logic ctrl_ODS_shift;
+
+  controller_fsm controller_unit
+  (.clk(clk),
+  .arst_n_in(arst_n_in),
+
+  .start(start),
+  .running(running),
+
+  //datapad control interface & external handshaking communication
+  .con_valid(con_valid),
+  .con_ready(con_ready),
+
+  .output_valid(output_valid),
+  .output_x(output_x),
+  .output_y(output_y),
+  .output_ch(output_ch),
+
+  .ctrl_IDSS_shift(ctrl_IDSS_shift),
+  .ctrl_IDSS_LE_select(ctrl_IDSS_LE_select),
+
+  .ctrl_KDS_LE_select(ctrl_KDS_LE_select),
+
+  .ctrl_ODS_shift(ctrl_ODS_shift),
+  .ctrl_ODS_sel_out(ctrl_ODS_sel_out), 
+
+  .driving_cons(driving_cons)
+  );
 
 endmodule

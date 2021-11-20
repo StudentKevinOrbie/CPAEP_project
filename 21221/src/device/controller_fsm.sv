@@ -16,8 +16,6 @@ module controller_fsm #(
   input logic con_valid,
   output logic con_ready,
 
-  output logic inc_x,
-
   output logic output_valid,
   output logic [32-1:0] output_x,
   output logic [32-1:0] output_y,
@@ -137,8 +135,8 @@ module controller_fsm #(
 
     load_I_counter_next <= load_I_counter;
     load_K_counter_next <= load_K_counter;
-    load_I_counter_WE = 1;
-    load_K_counter_WE = 1;
+    load_I_counter_we = 1;
+    load_K_counter_we = 1;
 
     case (current_state)
       // IDLE

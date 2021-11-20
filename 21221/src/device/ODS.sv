@@ -38,28 +38,28 @@ module ODS #(
   assign out_2 = r_2_2;
   assign out_3 = r_3_2;
 
-  assign r_1_2_WE = shift;
-  assign r_2_2_WE = shift;
-  assign r_3_2_WE = shift;
+  assign r_1_2_we = shift;
+  assign r_2_2_we = shift;
+  assign r_3_2_we = shift;
 
   // Write Enables
   always @(clk)
   begin
-    r_1_1_WE <= 1'b0;
-    r_2_1_WE <= 1'b0;
-    r_3_1_WE <= 1'b0;
+    r_1_1_we <= 1'b0;
+    r_2_1_we <= 1'b0;
+    r_3_1_we <= 1'b0;
     case(sel_out)
       2'b00:
-        r_1_1_WE <= 1'b1;
+        r_1_1_we <= 1'b1;
       2'b01:
-        r_2_1_WE <= 1'b1;
+        r_2_1_we <= 1'b1;
       2'b10:
-        r_3_1_WE <= 1'b1;
+        r_3_1_we <= 1'b1;
       default:
         begin
-          r_1_1_WE <= 1'b0;
-          r_2_1_WE <= 1'b0;
-          r_3_1_WE <= 1'b0;
+          r_1_1_we <= 1'b0;
+          r_2_1_we <= 1'b0;
+          r_3_1_we <= 1'b0;
         end
   end
 
