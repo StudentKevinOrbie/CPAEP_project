@@ -4,6 +4,7 @@ class Driver #(config_t cfg);
 
   mailbox #(Transaction_Feature #(cfg)) gen2drv_feature;
   mailbox #(Transaction_Kernel #(cfg)) gen2drv_kernel;
+  typedef Transaction_Kernel #(cfg) Transaction_Kernel_configured;
 
   function new(
     virtual intf #(cfg) i,
@@ -28,7 +29,7 @@ class Driver #(config_t cfg);
   endtask
 
   // Loads num_kernels to the dut
-  task load_kernels(input int start_ch_out, num_kernels, ref Transaction_Kernel #(cfg) tract_kernel);
+  task load_kernels(input int start_ch_out, num_kernels, ref Transaction_Kernel_configured tract_kernel);
     intf_i.cb.con_valid <= 1;
 
     for (int outch = start_ch_out; outch < start_ch_out + num_kernels; outch++) begin
