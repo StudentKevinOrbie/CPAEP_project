@@ -28,7 +28,7 @@ class Driver #(config_t cfg);
   endtask
 
   // Loads num_kernels to the dut
-  task load_kernels(input int start_ch_out, num_kernels, input Transaction_Kernel #(cfg) tract_kernel);
+  task load_kernels(input int start_ch_out, num_kernels, ref Transaction_Kernel #(cfg) tract_kernel);
     intf_i.cb.con_valid <= 1;
 
     for (int outch = start_ch_out; outch < start_ch_out + num_kernels; outch++) begin
@@ -117,7 +117,7 @@ class Driver #(config_t cfg);
       for(int outch=0; outch < cfg.OUTPUT_NB_CHANNELS; outch = outch + 6) begin
         $display("[DRV] %.2f %% of the input is transferred", ((outch)*100.0)/cfg.OUTPUT_NB_CHANNELS);
 
-        assert (!$isunknown(tract_kernel.kernel[0][0][0][0]));
+        assert (!$isunknown(tract_kernel));
 
         if (outch == 30) begin
           load_kernels(outch, 2, tract_kernel);
