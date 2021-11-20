@@ -48,6 +48,13 @@ module top_chip #(
   logic [IO_DATA_WIDTH-1:0] IDSS_to_MAC [35:0];
   logic [IO_DATA_WIDTH-1:0] KDS_to_MAC [35:0];
 
+  // ctrl
+  logic ctrl_to_IDSS_shift;
+  logic [1:0] ctrl_to_IDSS_LE_select;
+  logic [11:0] ctrl_to_KDS_LE_select;
+  logic [1:0] ctrl_to_ODS_sel_out;
+  logic ctrl_to_ODS_shift;
+
   // ================== CONNECTIONS ==================
   assign ODS_in = mac_out;
 
@@ -75,8 +82,8 @@ module top_chip #(
    .out (IDSS_to_MAC),
 
    // Control
-   .shift (ctrl_IDSS_shift),
-   .LE_select (ctrl_IDSS_LE_select)
+   .shift (ctrl_to_IDSS_shift),
+   .LE_select (ctrl_to_IDSS_LE_select)
   );
 
   KDS KDS_unit
@@ -92,7 +99,7 @@ module top_chip #(
    .out (KDS_to_MAC),
 
    // Control
-   .LE_select (ctrl_KDS_LE_select)
+   .LE_select (ctrl_to_KDS_LE_select)
   );
 
   super_MAC super_MAC_unit
@@ -116,18 +123,11 @@ module top_chip #(
    .out_2 (to_con_2), 
    .out_3 (to_con_3),
 
-   .sel_out (ctrl_ODS_sel_out),
-   .shift (ctrl_ODS_shift)
+   .sel_out (ctrl_to_ODS_sel_out),
+   .shift (ctrl_to_ODS_shift)
   ); 
   // ================== CONTROL ==================
   // LOOP COUNTERS + TOTAL FSM
-
-  // ctrl
-  logic ctrl_IDSS_shift;
-  logic [1:0] ctrl_IDSS_LE_select;
-  logic [11:0] ctrl_KDS_LE_select;
-  logic [1:0] ctrl_ODS_sel_out;
-  logic ctrl_ODS_shift;
 
   controller_fsm controller_unit
   (.clk(clk),
@@ -145,13 +145,13 @@ module top_chip #(
   .output_y(output_y),
   .output_ch(output_ch),
 
-  .ctrl_IDSS_shift(ctrl_IDSS_shift),
-  .ctrl_IDSS_LE_select(ctrl_IDSS_LE_select),
+  .ctrl_IDSS_shift(ctrl_to_IDSS_shift),
+  .ctrl_IDSS_LE_select(ctrl_to_IDSS_LE_select),
 
-  .ctrl_KDS_LE_select(ctrl_KDS_LE_select),
+  .ctrl_KDS_LE_select(ctrl_to_KDS_LE_select),
 
-  .ctrl_ODS_shift(ctrl_ODS_shift),
-  .ctrl_ODS_sel_out(ctrl_ODS_sel_out), 
+  .ctrl_ODS_shift(ctrl_to_ODS_shift),
+  .ctrl_ODS_sel_out(ctrl_to_ODS_sel_out), 
 
   .driving_cons(driving_cons)
   );
