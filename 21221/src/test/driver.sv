@@ -122,7 +122,7 @@ class Driver #(config_t cfg);
         
         $display("[DRV] Testing track_kernel in loop");
         assert (!$isunknown(tract_kernel));
-        assert (!$isunknown(tract_kernel[0][0][0][0]));
+        assert (!$isunknown(tract_kernel.kernel[0][0][0][0]));
 
         if (outch == 30) begin
           load_kernels(outch, 2, tract_kernel);
