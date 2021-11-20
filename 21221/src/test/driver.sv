@@ -28,7 +28,7 @@ class Driver #(config_t cfg);
   endtask
 
   // Loads num_kernels to the dut
-  task load_kernels(input int start_ch_out, num_kernels, input Transaction_Kernel tract_kernel);
+  task load_kernels(input int start_ch_out, num_kernels, input Transaction_Kernel #(cfg) tract_kernel);
     intf_i.cb.con_valid <= 1;
 
     for (int outch = start_ch_out; outch < start_ch_out + num_kernels; outch++) begin
@@ -53,7 +53,7 @@ class Driver #(config_t cfg);
   endtask
 
   // Loads a single input slide (12 Values) to the dut
-  task load_input_slice(input int start_x, start_y, input Transaction_Feature tract_feature);
+  task load_input_slice(input int start_x, start_y, input Transaction_Feature #(cfg) tract_feature);
     intf_i.cb.con_valid <= 1;
 
     for(int inch=0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
