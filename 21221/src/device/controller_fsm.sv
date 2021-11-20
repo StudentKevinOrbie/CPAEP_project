@@ -142,7 +142,7 @@ module controller_fsm #(
       IDLE: begin
         running = 0;
 
-        load_K_counter_next = 3'b110;
+        load_K_counter_next = 3'b101; // 5
         next_state = start ? LK_1 : IDLE;
       end
 
@@ -320,8 +320,8 @@ module controller_fsm #(
         driving_cons = 1; 
         inc_x = 1; // Should only happen if output is "valid" --> Delayed due to pipeline
 
-        load_K_counter_next = 3'b110;
-        load_I_counter_next = 2'b11;
+        load_K_counter_next = 3'b101; //5
+        load_I_counter_next = 2'b11;  //3
         next_state = (!last_x) ? CC_1 : (!last_y) ? LI_1 : (!last_ch_out) ? LK_1 : IDLE;
       end
 

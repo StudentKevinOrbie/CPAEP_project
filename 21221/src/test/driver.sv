@@ -38,7 +38,7 @@ class Driver #(config_t cfg);
       // Load entire Kernel
       for(int kx = cfg.KERNEL_SIZE - 1; kx >= 0; kx--) begin
         for(int inch = 0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
-          $display("[DRV] outch: %d, kx: %d, inch: %d", outch, kx, inch);
+          $display("[DRV] Kernel --> outch: %d, kx: %d, inch: %d", outch, kx, inch);
           //$display(tract_kernel);
           assert (!$isunknown(tract_kernel.kernel[0][kx][inch][outch]));
           assert (!$isunknown(tract_kernel.kernel[1][kx][inch][outch]));
@@ -61,6 +61,7 @@ class Driver #(config_t cfg);
     intf_i.cb.con_valid <= 1;
 
     for(int inch=0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
+      $display("[DRV] Feature --> inch: %d", inch);
       if (start_x == -1 || start_x >= cfg.FEATURE_MAP_WIDTH) begin
         intf_i.cb.to_con_1 <= 0;
         intf_i.cb.to_con_2 <= 0;
