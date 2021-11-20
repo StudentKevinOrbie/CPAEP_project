@@ -5,8 +5,7 @@ class Driver #(config_t cfg);
   mailbox #(Transaction_Feature #(cfg)) gen2drv_feature;
   mailbox #(Transaction_Kernel #(cfg)) gen2drv_kernel;
   typedef Transaction_Kernel #(cfg) Transaction_Kernel_configured;
-  Transaction_Feature #(cfg) tract_feature;
-  Transaction_Kernel #(cfg) tract_kernel;
+  typedef Transaction_Feature #(cfg) Transaction_Feature_configured;
 
   function new(
     virtual intf #(cfg) i,
@@ -16,8 +15,6 @@ class Driver #(config_t cfg);
     intf_i = i;
     gen2drv_feature = g2d_feature;
     gen2drv_kernel = g2d_kernel;
-    tract_feature = null;
-    tract_kernel = null;
   endfunction : new
 
   task reset;
@@ -33,7 +30,7 @@ class Driver #(config_t cfg);
   endtask
 
   // Loads num_kernels to the dut
-  task load_kernels(input int start_ch_out, num_kernels);
+  task load_kernels(input int start_ch_out, num_kernels, input Transaction_Kernel_configured tract_kernel);
     intf_i.cb.con_valid <= 1;
 
     for (int outch = start_ch_out; outch < start_ch_out + num_kernels; outch++) begin
@@ -41,6 +38,7 @@ class Driver #(config_t cfg);
       // Load entire Kernel
       for(int kx = cfg.KERNEL_SIZE - 1; kx >= 0; kx++) begin
         for(int inch = 0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
+          $display("[DRV] Testing track_kernel in function");
           assert (!$isunknown(tract_kernel));
           assert (!$isunknown(tract_kernel.kernel[0][kx][inch][outch]));
           assert (!$isunknown(tract_kernel.kernel[1][kx][inch][outch]));
@@ -59,7 +57,7 @@ class Driver #(config_t cfg);
   endtask
 
   // Loads a single input slide (12 Values) to the dut
-  task load_input_slice(input int start_x, start_y, input Transaction_Feature #(cfg) tract_feature);
+  task load_input_slice(input int start_x, start_y, input Transaction_Feature_configured tract_feature);
     intf_i.cb.con_valid <= 1;
 
     for(int inch=0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
@@ -101,7 +99,7 @@ class Driver #(config_t cfg);
 
     // Get a transaction with kernel from the Generator
     // Kernel remains same throughput the verification
-    // Transaction_Kernel #(cfg) tract_kernel;
+    Transaction_Kernel #(cfg) tract_kernel;
     gen2drv_kernel.get(tract_kernel);
 
     $display("[DRV] -----  Start execution -----");
@@ -109,7 +107,7 @@ class Driver #(config_t cfg);
     forever begin
       time starttime;
       // Get a transaction with feature from the Generator
-      // Transaction_Feature #(cfg) tract_feature;
+      Transaction_Feature #(cfg) tract_feature;
       gen2drv_feature.get(tract_feature);
 
       $display("[DRV] Giving start signal");
@@ -121,13 +119,15 @@ class Driver #(config_t cfg);
       $display("[DRV] ----- Driving a new input feature map -----");
       for(int outch=0; outch < cfg.OUTPUT_NB_CHANNELS; outch = outch + 6) begin
         $display("[DRV] %.2f %% of the input is transferred", ((outch)*100.0)/cfg.OUTPUT_NB_CHANNELS);
-
+        
+        $display("[DRV] Testing track_kernel in loop");
         assert (!$isunknown(tract_kernel));
+        assert (!$isunknown(tract_kernel[0][0][0][0]));
 
         if (outch == 30) begin
-          load_kernels(outch, 2);
+          load_kernels(outch, 2, tract_kernel);
         end else begin
-          load_kernels(outch, 6);
+          load_kernels(outch, 6, tract_kernel);
         end
 
         for(int y = -1; y <= cfg.FEATURE_MAP_HEIGHT - 2; y++) begin
