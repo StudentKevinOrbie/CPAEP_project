@@ -73,7 +73,7 @@ module tbench_top;
    .start        (intf_i.start),
    .running      (intf_i.running),
 
-   .driving_cons (dut_driving_cons)
+   .driving_cons (intf_i.dut_driving_cons)
   );
 
 

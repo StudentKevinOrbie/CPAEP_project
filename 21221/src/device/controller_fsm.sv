@@ -101,8 +101,8 @@ module controller_fsm #(
   `REG(2, load_I_counter);
   `REG(3, load_K_counter);
   
-  assign last_partial_load_K = (load_I_counter == 0);
-  assign last_partial_load_I = (load_K_counter == 0);
+  assign last_partial_load_K = (load_K_counter == 0);
+  assign last_partial_load_I = (load_I_counter == 0);
   
   // ======================================== Control FSM ========================================
 
