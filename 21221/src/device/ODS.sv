@@ -49,18 +49,16 @@ module ODS #(
     r_2_1_we <= 1'b0;
     r_3_1_we <= 1'b0;
     case(sel_out)
-      2'b00:
-        r_1_1_we <= 1'b1;
-      2'b01:
-        r_2_1_we <= 1'b1;
-      2'b10:
-        r_3_1_we <= 1'b1;
+      2'b00: r_1_1_we <= 1'b1;
+      2'b01: r_2_1_we <= 1'b1;
+      2'b10: r_3_1_we <= 1'b1;
       default:
         begin
           r_1_1_we <= 1'b0;
           r_2_1_we <= 1'b0;
           r_3_1_we <= 1'b0;
         end
+    endcase
   end
 
 endmodule

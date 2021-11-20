@@ -27,7 +27,7 @@ module KDS #(
 genvar i;
 
 generate
-for (i=0;i<12;i=i+1)
+for (i=0;i<12;i=i+1) begin
   logic mux_1_out;
   assign mux_1_out = ( LE_select[i] == 1 )? v_1:out[3*i*IO_DATA_WIDTH:(3*i+1)*IO_DATA_WIDTH-1];
 
