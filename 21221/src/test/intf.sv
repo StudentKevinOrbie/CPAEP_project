@@ -11,9 +11,9 @@ interface intf #(
   ################################*/
 
   // input interface
-  logic [cfg.DATA_WIDTH - 1 : 0] con_1;
-  logic [cfg.DATA_WIDTH - 1 : 0] con_2;
-  logic [cfg.DATA_WIDTH - 1 : 0] con_3;
+  wire [cfg.DATA_WIDTH - 1 : 0] con_1;
+  wire [cfg.DATA_WIDTH - 1 : 0] con_2;
+  wire [cfg.DATA_WIDTH - 1 : 0] con_3;
 
   logic con_valid;
   logic con_ready;

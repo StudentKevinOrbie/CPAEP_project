@@ -29,13 +29,13 @@ genvar i;
 generate
 for (i=0;i<12;i=i+1) begin
   logic mux_1_out;
-  assign mux_1_out = ( LE_select[i] == 1 )? v_1:out[3*i*IO_DATA_WIDTH:(3*i+1)*IO_DATA_WIDTH-1];
+  assign mux_1_out = ( LE_select[i] == 1 ) ? v_1:out[3*i];
 
   logic mux_2_out;
-  assign mux_2_out = ( LE_select[i] == 1 )? v_2:out[(3*i+1)*IO_DATA_WIDTH:(3*i+2)*IO_DATA_WIDTH-1];
+  assign mux_2_out = ( LE_select[i] == 1 ) ? v_2:out[(3*i+1)];
 
   logic mux_3_out;
-  assign mux_3_out = ( LE_select[i] == 1 )? v_3:out[(3*i+2)*IO_DATA_WIDTH:(3*i+3)*IO_DATA_WIDTH-1];
+  assign mux_3_out = ( LE_select[i] == 1 ) ? v_3:out[(3*i+2)];
 
   fifo #(.WIDTH(IO_DATA_WIDTH), .LOG2_OF_DEPTH(3), .USE_AS_EXTERNAL_FIFO (0)) fifo_1
   (
@@ -44,7 +44,7 @@ for (i=0;i<12;i=i+1) begin
     .din (mux_1_out),
     .input_valid (1), //write enable
     .input_ready (), // not fifo full
-    .qout (out[3*i*IO_DATA_WIDTH:(3*i+1)*IO_DATA_WIDTH-1]),
+    .qout (out[3*i]),
     .output_valid (), // not empty
     .output_ready (1)  //read enable
   );
@@ -56,7 +56,7 @@ for (i=0;i<12;i=i+1) begin
     .din (mux_2_out),
     .input_valid (1), //write enable
     .input_ready (), // not fifo full
-    .qout (out[(3*i+1)*IO_DATA_WIDTH:(3*i+2)*IO_DATA_WIDTH-1]),
+    .qout (out[(3*i+1)]),
     .output_valid (), // not empty
     .output_ready (1)  //read enable
   );
@@ -68,7 +68,7 @@ for (i=0;i<12;i=i+1) begin
     .din (mux_3_out),
     .input_valid (1), //write enable
     .input_ready (), // not fifo full
-    .qout (out[(3*i+2)*IO_DATA_WIDTH:(3*i+3)*IO_DATA_WIDTH-1]),
+    .qout (out[(3*i+2)]),
     .output_valid (), // not empty
     .output_ready (1)  //read enable
   );
