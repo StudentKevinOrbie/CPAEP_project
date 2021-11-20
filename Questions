@@ -1,0 +1,25 @@
+Question 1:
+What about overflow in the mac ?
+It is assumed to be ok
+
+Question 2:
+out = mac_out (16-bits = 32-bits) ?
+Uses the LSB
+
+Question 3:
+Why not add signed to top_chip input ? Ln 27
+Focus not on arithmatic, as long as golden version same nice!
+
+=================================
+We could add +3 kernel to reduce BW req
+Add ++regs to pipeline (multiplier = adder time) due to 2x size ==> Fclk/2
+
+TODO:
+- Control
+- top_chip --> OK
+- Driver and Monitor
+- Testing
+- Do registers in ODS --> OK
+- Fifo log2, use Ceil ! --> OK
+
+LE_select
