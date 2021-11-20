@@ -28,7 +28,10 @@ for (i=0;i<36;i=i+1) begin
     mul
     (.a(I_in[i]),
      .b(K_in[i]),
-     .out(mul_out_next[i*ACCUMULATOR_WIDTH:(i+1)*ACCUMULATOR_WIDTH-1]));
+     .out(mul_out_next[i*ACCUMULATOR_WIDTH +: ACCUMULATOR_WIDTH]));
+    
+    // mul_out_next[i*ACCUMULATOR_WIDTH:(i+1)*ACCUMULATOR_WIDTH-1]) is an illegal select, as the values should be cst
+    // use [start +: width] instead
 end
 endgenerate
 
@@ -46,8 +49,8 @@ for (i=0;i<18;i=i+1) begin
            .OUT_WIDTH(ACCUMULATOR_WIDTH),
            .OUT_SCALE(0))
     add
-    (.a(mul_out[2*i*ACCUMULATOR_WIDTH:(2*i+1)*ACCUMULATOR_WIDTH-1]),
-     .b(mul_out[(2*i + 1)*ACCUMULATOR_WIDTH:(2*i+2)*ACCUMULATOR_WIDTH-1]),
+    (.a(mul_out[2*i*ACCUMULATOR_WIDTH +: ACCUMULATOR_WIDTH]),
+     .b(mul_out[(2*i + 1)*ACCUMULATOR_WIDTH +: ACCUMULATOR_WIDTH]),
      .out(sum_sub_1[i]));
 end
 endgenerate
@@ -62,7 +65,7 @@ for (i=0;i<9;i=i+1) begin
     add
     (.a(sum_sub_1[2*i]),
      .b(sum_sub_1[2*i + 1]),
-     .out(sum_1_next[i*ACCUMULATOR_WIDTH:(i+1)*ACCUMULATOR_WIDTH-1]));
+     .out(sum_1_next[i*ACCUMULATOR_WIDTH +: ACCUMULATOR_WIDTH]));
 end
 endgenerate
 
@@ -77,8 +80,8 @@ for (i=0;i<4;i=i+1) begin
            .OUT_WIDTH(ACCUMULATOR_WIDTH),
            .OUT_SCALE(0))
     add
-    (.a(sum_1[2*i*ACCUMULATOR_WIDTH:(2*i+1)*ACCUMULATOR_WIDTH-1]),
-     .b(sum_1[(2*i+1)*ACCUMULATOR_WIDTH :(2*i+2)*ACCUMULATOR_WIDTH-1]),
+    (.a(sum_1[2*i*ACCUMULATOR_WIDTH +: ACCUMULATOR_WIDTH]),
+     .b(sum_1[(2*i+1)*ACCUMULATOR_WIDTH +: ACCUMULATOR_WIDTH]),
      .out(sum_sub_2[i]));
 end
 endgenerate
