@@ -32,7 +32,6 @@ module controller_fsm #(
   output logic driving_cons
   );
 
-
   //loop counters (see register.sv for macro)
   `REG(32, x);
   `REG(32, y);
@@ -63,7 +62,7 @@ module controller_fsm #(
               for k_h  --
                 body
   */
-  // ==>
+  logic inc_x;
   assign x_we      = inc_x ; //only if last of all enclosed loops
   assign y_we      = inc_x && last_x; //only if last of all enclosed loops
   assign ch_out_we = inc_x && last_x && last_y; //only if last of all enclosed loops

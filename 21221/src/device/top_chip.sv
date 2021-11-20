@@ -117,7 +117,7 @@ module top_chip #(
    .out_3 (to_con_3),
 
    .sel_out (ctrl_ODS_sel_out),
-   .shift (ctrl_ODS_shift),
+   .shift (ctrl_ODS_shift)
   ); 
   // ================== CONTROL ==================
   // LOOP COUNTERS + TOTAL FSM
