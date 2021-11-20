@@ -228,7 +228,7 @@ module controller_fsm #(
         con_ready = 1;
         ctrl_KDS_LE_select = 12'b1000_0000_0000;
 
-        load_I_counter_next = 2'b11;
+        load_I_counter_next = 2'b10; //2 --> [2,1,0] ==> 3X
         load_K_counter_next = load_K_counter - 1;
         next_state = last_partial_load_K ? LI_1 : LK_1;
       end
@@ -321,7 +321,7 @@ module controller_fsm #(
         inc_x = 1; // Should only happen if output is "valid" --> Delayed due to pipeline
 
         load_K_counter_next = 3'b101; //5
-        load_I_counter_next = 2'b11;  //3
+        load_I_counter_next = 2'b10;  //2
         next_state = (!last_x) ? CC_1 : (!last_y) ? LI_1 : (!last_ch_out) ? LK_1 : IDLE;
       end
 

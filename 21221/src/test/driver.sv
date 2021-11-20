@@ -130,8 +130,11 @@ class Driver #(config_t cfg);
         for(int y = -1; y <= cfg.FEATURE_MAP_HEIGHT - 2; y++) begin
 
           load_input_slice(-1, y, tract_feature);
+          @(intf_i.cb); // Shift state
           load_input_slice(0, y, tract_feature);
+          @(intf_i.cb); // Shift state
           load_input_slice(1, y, tract_feature);
+          @(intf_i.cb); // Shift state
 
           for(int x = 2; x <= cfg.FEATURE_MAP_WIDTH; x++) begin
 
