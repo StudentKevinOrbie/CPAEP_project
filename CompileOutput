@@ -71,6 +71,8 @@ rtl_building_blocks/device/fifo.sv, 51
       use +lint=PCWM for more details
 
 // --------------------------------------------------------------------
+// OK, as this warning is also shown in the original version
+
 Warning-[PCWM-W] Port connection width mismatch
 device/top_chip.sv, 132
 "controller_fsm controller_unit( .clk (clk),  .arst_n_in (arst_n_in),  .start (start),  .running (running),  .con_valid (con_valid),  .con_ready (con_ready),  .output_valid (output_valid),  .output_x (output_x),  .output_y (output_y),  .output_ch (output_ch),  .ctrl_IDSS_shift (ctrl_to_IDSS_shift),  .ctrl_IDSS_LE_select (ctrl_to_IDSS_LE_select),  .ctrl_KDS_LE_select (ctrl_to_KDS_LE_select),  .ctrl_ODS_shift (ctrl_to_ODS_shift),  .ctrl_ODS_sel_out (ctrl_to_ODS_sel_out),  .driving_cons (driving_cons));"
@@ -98,6 +100,8 @@ device/top_chip.sv, 132
       use +lint=PCWM for more details
 
 // --------------------------------------------------------------------
+
+// ~~~~~~~~ block 1: fifo 1
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_1_out),  .input_valid (1),  .qout (out[(3 * 0)]),  .output_ready (1));"
@@ -124,7 +128,7 @@ device/KDS.sv, 40
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 1: fifo 2
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 52
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_2_out),  .input_valid (1),  .qout (out[((3 * 0) + 1)]),  .output_ready (1));"
@@ -151,7 +155,7 @@ device/KDS.sv, 52
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 1: fifo 3
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 64
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[0].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[0].mux_3_out),  .input_valid (1),  .qout (out[((3 * 0) + 2)]),  .output_ready (1));"
@@ -178,7 +182,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 2: fifo 1
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_1_out),  .input_valid (1),  .qout (out[(3 * 1)]),  .output_ready (1));"
@@ -205,7 +209,7 @@ device/KDS.sv, 40
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 2: fifo 2
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 52
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_2_out),  .input_valid (1),  .qout (out[((3 * 1) + 1)]),  .output_ready (1));"
@@ -232,7 +236,7 @@ device/KDS.sv, 52
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 2: fifo 3
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 64
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[1].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[1].mux_3_out),  .input_valid (1),  .qout (out[((3 * 1) + 2)]),  .output_ready (1));"
@@ -259,7 +263,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 3: fifo 1
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_1_out),  .input_valid (1),  .qout (out[(3 * 2)]),  .output_ready (1));"
@@ -286,7 +290,7 @@ device/KDS.sv, 40
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 3: fifo 2
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 52
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_2_out),  .input_valid (1),  .qout (out[((3 * 2) + 1)]),  .output_ready (1));"
@@ -313,7 +317,7 @@ device/KDS.sv, 52
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 3: fifo 3
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 64
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[2].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[2].mux_3_out),  .input_valid (1),  .qout (out[((3 * 2) + 2)]),  .output_ready (1));"
@@ -340,7 +344,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 4: fifo 1
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_1_out),  .input_valid (1),  .qout (out[(3 * 3)]),  .output_ready (1));"
@@ -367,7 +371,7 @@ device/KDS.sv, 40
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 4: fifo 2
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 52
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_2( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_2_out),  .input_valid (1),  .qout (out[((3 * 3) + 1)]),  .output_ready (1));"
@@ -394,7 +398,7 @@ device/KDS.sv, 52
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 4: fifo 3
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 64
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[3].fifo_3( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[3].mux_3_out),  .input_valid (1),  .qout (out[((3 * 3) + 2)]),  .output_ready (1));"
@@ -421,7 +425,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 5 ~~~~~~~~
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[4].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[4].mux_1_out),  .input_valid (1),  .qout (out[(3 * 4)]),  .output_ready (1));"
@@ -502,7 +506,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 6 ~~~~~~~~
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[5].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[5].mux_1_out),  .input_valid (1),  .qout (out[(3 * 5)]),  .output_ready (1));"
@@ -583,7 +587,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 7 ~~~~~~~~
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[6].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[6].mux_1_out),  .input_valid (1),  .qout (out[(3 * 6)]),  .output_ready (1));"
@@ -664,7 +668,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 8 ~~~~~~~~
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[7].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[7].mux_1_out),  .input_valid (1),  .qout (out[(3 * 7)]),  .output_ready (1));"
@@ -745,7 +749,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 9 ~~~~~~~~
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[8].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[8].mux_1_out),  .input_valid (1),  .qout (out[(3 * 8)]),  .output_ready (1));"
@@ -826,7 +830,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 10 ~~~~~~~~
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[9].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[9].mux_1_out),  .input_valid (1),  .qout (out[(3 * 9)]),  .output_ready (1));"
@@ -907,7 +911,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 11 ~~~~~~~~
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[10].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[10].mux_1_out),  .input_valid (1),  .qout (out[(3 * 10)]),  .output_ready (1));"
@@ -988,7 +992,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
-
+// ~~~~~~~~ block 12 ~~~~~~~~
 Warning-[PCWM-W] Port connection width mismatch
 device/KDS.sv, 40
 " fifo #(IO_DATA_WIDTH, 3, 0) genblk1[11].fifo_1( .clk (clk),  .arst_n_in (arst_n_in),  .din (genblk1[11].mux_1_out),  .input_valid (1),  .qout (out[(3 * 11)]),  .output_ready (1));"
@@ -1069,6 +1073,7 @@ device/KDS.sv, 64
   Expression: 1
       use +lint=PCWM for more details
 
+// --------------------------------------------------------------------
 Warning : License for product VT_Testbench(772) will expire within 20 days, on: 09-dec-2021.
 
 If you would like to temporarily disable this message, set

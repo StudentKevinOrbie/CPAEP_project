@@ -28,13 +28,13 @@ genvar i;
 
 generate
 for (i=0;i<12;i=i+1) begin
-  logic mux_1_out;
+  logic [IO_DATA_WIDTH-1:0] mux_1_out;
   assign mux_1_out = ( LE_select[i] == 1 ) ? v_1:out[3*i];
 
-  logic mux_2_out;
+  logic [IO_DATA_WIDTH-1:0] mux_2_out;
   assign mux_2_out = ( LE_select[i] == 1 ) ? v_2:out[(3*i+1)];
 
-  logic mux_3_out;
+  logic [IO_DATA_WIDTH-1:0] mux_3_out;
   assign mux_3_out = ( LE_select[i] == 1 ) ? v_3:out[(3*i+2)];
 
   fifo #(.WIDTH(IO_DATA_WIDTH), .LOG2_OF_DEPTH(3), .USE_AS_EXTERNAL_FIFO (0)) fifo_1
@@ -42,11 +42,11 @@ for (i=0;i<12;i=i+1) begin
     .clk (clk),
     .arst_n_in (arst_n_in), //asynchronous reset, active low
     .din (mux_1_out),
-    .input_valid (1), //write enable
+    .input_valid (1'b1), //write enable
     .input_ready (), // not fifo full
     .qout (out[3*i]),
     .output_valid (), // not empty
-    .output_ready (1)  //read enable
+    .output_ready (1'b1)  //read enable
   );
 
   fifo #(.WIDTH(IO_DATA_WIDTH), .LOG2_OF_DEPTH(3), .USE_AS_EXTERNAL_FIFO (0)) fifo_2
@@ -54,11 +54,11 @@ for (i=0;i<12;i=i+1) begin
     .clk (clk),
     .arst_n_in (arst_n_in), //asynchronous reset, active low
     .din (mux_2_out),
-    .input_valid (1), //write enable
+    .input_valid (1'b1), //write enable
     .input_ready (), // not fifo full
     .qout (out[(3*i+1)]),
     .output_valid (), // not empty
-    .output_ready (1)  //read enable
+    .output_ready (1'b1)  //read enable
   );
 
   fifo #(.WIDTH(IO_DATA_WIDTH), .LOG2_OF_DEPTH(3), .USE_AS_EXTERNAL_FIFO (0)) fifo_3
@@ -66,11 +66,11 @@ for (i=0;i<12;i=i+1) begin
     .clk (clk),
     .arst_n_in (arst_n_in), //asynchronous reset, active low
     .din (mux_3_out),
-    .input_valid (1), //write enable
+    .input_valid (1'b1), //write enable
     .input_ready (), // not fifo full
     .qout (out[(3*i+2)]),
     .output_valid (), // not empty
-    .output_ready (1)  //read enable
+    .output_ready (1'b1)  //read enable
   );
 end
 endgenerate
