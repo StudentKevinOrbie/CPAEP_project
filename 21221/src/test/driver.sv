@@ -5,6 +5,8 @@ class Driver #(config_t cfg);
   mailbox #(Transaction_Feature #(cfg)) gen2drv_feature;
   mailbox #(Transaction_Kernel #(cfg)) gen2drv_kernel;
   typedef Transaction_Kernel #(cfg) Transaction_Kernel_configured;
+  Transaction_Feature #(cfg) tract_feature;
+  Transaction_Kernel #(cfg) tract_kernel;
 
   function new(
     virtual intf #(cfg) i,
@@ -14,6 +16,8 @@ class Driver #(config_t cfg);
     intf_i = i;
     gen2drv_feature = g2d_feature;
     gen2drv_kernel = g2d_kernel;
+    tract_feature = null;
+    tract_kernel = null;
   endfunction : new
 
   task reset;
@@ -29,7 +33,7 @@ class Driver #(config_t cfg);
   endtask
 
   // Loads num_kernels to the dut
-  task load_kernels(input int start_ch_out, num_kernels, ref Transaction_Kernel_configured tract_kernel);
+  task load_kernels(input int start_ch_out, num_kernels);
     intf_i.cb.con_valid <= 1;
 
     for (int outch = start_ch_out; outch < start_ch_out + num_kernels; outch++) begin
@@ -97,7 +101,7 @@ class Driver #(config_t cfg);
 
     // Get a transaction with kernel from the Generator
     // Kernel remains same throughput the verification
-    Transaction_Kernel #(cfg) tract_kernel;
+    // Transaction_Kernel #(cfg) tract_kernel;
     gen2drv_kernel.get(tract_kernel);
 
     $display("[DRV] -----  Start execution -----");
@@ -105,7 +109,7 @@ class Driver #(config_t cfg);
     forever begin
       time starttime;
       // Get a transaction with feature from the Generator
-      Transaction_Feature #(cfg) tract_feature;
+      // Transaction_Feature #(cfg) tract_feature;
       gen2drv_feature.get(tract_feature);
 
       $display("[DRV] Giving start signal");
