@@ -1,7 +1,7 @@
 module super_MAC #(
     parameter int IN_WIDTH = 16,
     parameter int ACCUMULATOR_WIDTH = 32,
-    parameter int OUTPUT_WIDTH = 32,
+    parameter int OUTPUT_WIDTH = 32
   )
   (input logic clk,
    input logic arst_n_in,  //asynchronous reset, active low
@@ -20,7 +20,7 @@ genvar i;
 `REG(ACCUMULATOR_WIDTH*36, mul_out);
 
 generate
-for (i=0;i<36;i=i+1)
+for (i=0;i<36;i=i+1) begin
     multiplier #( .A_WIDTH(IN_WIDTH),
                   .B_WIDTH(IN_WIDTH),
                   .OUT_WIDTH(ACCUMULATOR_WIDTH),
@@ -40,7 +40,7 @@ logic signed [ACCUMULATOR_WIDTH-1:0] sum_sub_1 [17:0];
 //assing mul_out_reformatted = mul_out;
 
 generate
-for (i=0;i<18;i=i+1)
+for (i=0;i<18;i=i+1) begin
     adder #( .A_WIDTH(ACCUMULATOR_WIDTH),
            .B_WIDTH(ACCUMULATOR_WIDTH),
            .OUT_WIDTH(ACCUMULATOR_WIDTH),
@@ -54,7 +54,7 @@ endgenerate
 
 // ADDER: 9
 generate
-for (i=0;i<9;i=i+1)
+for (i=0;i<9;i=i+1) begin
     adder #( .A_WIDTH(ACCUMULATOR_WIDTH),
            .B_WIDTH(ACCUMULATOR_WIDTH),
            .OUT_WIDTH(ACCUMULATOR_WIDTH),
@@ -71,7 +71,7 @@ endgenerate
 logic signed [ACCUMULATOR_WIDTH-1:0] sum_sub_2 [3:0];
 
 generate
-for (i=0;i<4;i=i+1)
+for (i=0;i<4;i=i+1) begin
     adder #( .A_WIDTH(ACCUMULATOR_WIDTH),
            .B_WIDTH(ACCUMULATOR_WIDTH),
            .OUT_WIDTH(ACCUMULATOR_WIDTH),
