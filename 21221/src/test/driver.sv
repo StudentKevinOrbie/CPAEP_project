@@ -36,11 +36,10 @@ class Driver #(config_t cfg);
     for (int outch = start_ch_out; outch < start_ch_out + num_kernels; outch++) begin
 
       // Load entire Kernel
-      for(int kx = cfg.KERNEL_SIZE - 1; kx >= 0; kx++) begin
+      for(int kx = cfg.KERNEL_SIZE - 1; kx >= 0; kx--) begin
         for(int inch = 0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
           $display("[DRV] outch: %d, kx: %d, inch: %d", outch, kx, inch);
           $display(tract_kernel);
-          assert (!$isunknown(tract_kernel));
           assert (!$isunknown(tract_kernel.kernel[0][kx][inch][outch]));
           assert (!$isunknown(tract_kernel.kernel[1][kx][inch][outch]));
           assert (!$isunknown(tract_kernel.kernel[2][kx][inch][outch]));
@@ -120,10 +119,6 @@ class Driver #(config_t cfg);
       $display("[DRV] ----- Driving a new input feature map -----");
       for(int outch=0; outch < cfg.OUTPUT_NB_CHANNELS; outch = outch + 6) begin
         $display("[DRV] %.2f %% of the input is transferred", ((outch)*100.0)/cfg.OUTPUT_NB_CHANNELS);
-        
-        $display("[DRV] Testing track_kernel in loop");
-        assert (!$isunknown(tract_kernel));
-        assert (!$isunknown(tract_kernel.kernel[0][0][0][0]));
 
         if (outch == 30) begin
           load_kernels(outch, 2, tract_kernel);
