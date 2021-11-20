@@ -138,21 +138,18 @@ begin
  LE_4 <= 0;
 
  case (LE_select)
-    2'b00:
-      LE_1 <= 1;
-    2'b01:
-      LE_2 <= 1;
-    2'b10:
-      LE_3 <= 1;
-    2'b11:
-      LE_4 <= 1;
+    2'b00: LE_1 <= 1;
+    2'b01: LE_2 <= 1;
+    2'b10: LE_3 <= 1;
+    2'b11: LE_4 <= 1;
     default:
       begin
-	LE_1 <= 0;
+	      LE_1 <= 0;
         LE_2 <= 0;
         LE_3 <= 0;
         LE_4 <= 0;
       end
+  endcase
 end
 
 
