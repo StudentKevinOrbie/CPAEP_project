@@ -125,9 +125,9 @@ class Driver #(config_t cfg);
         assert (!$isunknown(tract_kernel));
 
         if (outch == 30) begin
-          load_kernels(outch, 2, tract_kernel);
+          load_kernels(outch, 2);
         end else begin
-          load_kernels(outch, 6, tract_kernel);
+          load_kernels(outch, 6);
         end
 
         for(int y = -1; y <= cfg.FEATURE_MAP_HEIGHT - 2; y++) begin
