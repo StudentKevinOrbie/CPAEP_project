@@ -12,120 +12,104 @@ module controller_fsm #(
   input logic start,
   output logic running,
 
-  //memory control interface
-  output logic mem_we,
-  output logic [LOG2_OF_MEM_HEIGHT-1:0] mem_write_addr,
-  output logic mem_re,
-  output logic [LOG2_OF_MEM_HEIGHT-1:0] mem_read_addr,
-
-  //datapad control interface & external handshaking communication of a and b
-  input logic a_valid,
-  input logic b_valid,
-  output logic b_ready,
-  output logic a_ready,
-  output logic write_a,
-  output logic write_b,
-  output logic mac_valid,
-  output logic mac_accumulate_internal,
-  output logic mac_accumulate_with_0,
+  //datapad control interface & external handshaking communication
+  input logic con_valid,
+  output logic con_ready,
 
   output logic output_valid,
   output logic [32-1:0] output_x,
   output logic [32-1:0] output_y,
-  output logic [32-1:0] output_ch
+  output logic [32-1:0] output_ch,
 
+  output logic ctrl_IDSS_shift,
+  output logic [1:0] ctrl_IDSS_LE_select,
+
+  output logic [11:0] ctrl_KDS_LE_select,
+
+  output logic ctrl_ODS_shift,
+  output logic [1:0] ctrl_ODS_sel_out, 
+
+  output logic driving_cons
   );
 
-
   //loop counters (see register.sv for macro)
-  `REG(32, k_v);
-  `REG(32, k_h);
   `REG(32, x);
   `REG(32, y);
-  `REG(32, ch_in);
   `REG(32, ch_out);
 
-  logic reset_k_v, reset_k_h, reset_x, reset_y, reset_ch_in, reset_ch_out;
-  assign k_v_next = reset_k_v ? 0 : k_v + 1;
-  assign k_h_next = reset_k_h ? 0 : k_h + 1;
+  logic reset_x, reset_y, reset_ch_out;
   assign x_next = reset_x ? 0 : x + 1;
   assign y_next = reset_y ? 0 : y + 1;
-  assign ch_in_next = reset_ch_in ? 0 : ch_in + 1;
   assign ch_out_next = reset_ch_out ? 0 : ch_out + 1;
 
-  logic last_k_v, last_k_h, last_x, last_y, last_ch_in, last_ch_out;
-  assign last_k_v = k_v == KERNEL_SIZE - 1;
-  assign last_k_h = k_h == KERNEL_SIZE - 1;
+  logic last_x, last_y, last_ch_out;
   assign last_x = x == FEATURE_MAP_WIDTH-1;
   assign last_y = y == FEATURE_MAP_HEIGHT-1;
-  assign last_ch_in = ch_in == INPUT_NB_CHANNELS - 1;
   assign last_ch_out = ch_out == OUTPUT_NB_CHANNELS - 1;
 
-  assign reset_k_v = last_k_v;
-  assign reset_k_h = last_k_h;
   assign reset_x = last_x;
   assign reset_y = last_y;
-  assign reset_ch_in = last_ch_in;
   assign reset_ch_out = last_ch_out;
-
 
   /*
   chosen loop order:
-  for x
+  for ch_out/6
     for y
-      for ch_in
-        for ch_out     (with this order, accumulations need to be kept because ch_out is inside ch_in)
-          for k_v
-            for k_h
-              body
+      for x
+        for ch_out_1
+          for ch_in    --
+            for k_v    -- Paralell 
+              for k_h  --
+                body
   */
-  // ==>
-  assign k_h_we    = mac_valid; //each time a mac is done, k_h_we increments (or resets to 0 if last)
-  assign k_v_we    = mac_valid && last_k_h; //only if last of k_h loop
-  assign ch_out_we = mac_valid && last_k_h && last_k_v; //only if last of all enclosed loops
-  assign ch_in_we  = mac_valid && last_k_h && last_k_v && last_ch_out; //only if last of all enclosed loops
-  assign y_we      = mac_valid && last_k_h && last_k_v && last_ch_out && last_ch_in; //only if last of all enclosed loops
-  assign x_we      = mac_valid && last_k_h && last_k_v && last_ch_out && last_ch_in && last_y; //only if last of all enclosed loops
+  logic inc_x;
+  assign x_we      = inc_x ; //only if last of all enclosed loops
+  assign y_we      = inc_x && last_x; //only if last of all enclosed loops
+  assign ch_out_we = inc_x && last_x && last_y; //only if last of all enclosed loops
 
   logic last_overall;
-  assign last_overall   = last_k_h && last_k_v && last_ch_out && last_ch_in && last_y && last_x;
+  assign last_overall   = last_ch_out && last_y && last_x;
 
+ // `REG(32, prev_ch_out);
+ // assign prev_ch_out_next = ch_out;
+ // assign prev_ch_out_we = ch_out_we;
 
-  `REG(32, prev_ch_out);
-  assign prev_ch_out_next = ch_out;
-  assign prev_ch_out_we = ch_out_we;
-  //given loop order, partial sums need be saved over input channels
-  assign mem_we         = k_v == 0 && k_h == 0; // Note: one cycle after last_k_v and last_k_h, because of register in mac unit
-  assign mem_write_addr = prev_ch_out;
-
-  //and loaded back
-  assign mem_re         = k_v == 0 && k_h == 0;
-  assign mem_read_addr  = ch_out;
-
-  assign mac_accumulate_internal = ! (k_v == 0 && k_h == 0);
-  assign mac_accumulate_with_0   = ch_in ==0 && k_v == 0 && k_h == 0;
 
   //mark outputs
   `REG(1, output_valid_reg);
-  assign output_valid_reg_next = mac_valid && last_ch_in && last_k_v && last_k_h;
+  assign output_valid_reg_next = inc_x ;
   assign output_valid_reg_we   = 1;
   assign output_valid = output_valid_reg;
 
   register #(.WIDTH(32)) output_x_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(x),
                                                 .qout(output_x),
-                                                .we(mac_valid && last_ch_in && last_k_v && last_k_h));
+                                                .we(inc_x ));
   register #(.WIDTH(32)) output_y_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(y),
                                                 .qout(output_y),
-                                                .we(mac_valid && last_ch_in && last_k_v && last_k_h));
+                                                .we(inc_x ));
   register #(.WIDTH(32)) output_ch_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(ch_out),
                                                 .qout(output_ch),
-                                                .we(mac_valid && last_ch_in && last_k_v && last_k_h));
-  //mini fsm to loop over <fetch_a, fetch_b, acc>
+                                                .we(inc_x ));
 
-  typedef enum {IDLE, FETCH_A, FETCH_B, MAC} fsm_state;
+  logic last_partial_load_K;
+  logic last_partial_load_I;
+  logic last_load_K;
+
+  `REG(2, load_I_counter);
+  `REG(3, load_K_counter);
+  
+  assign last_partial_load_K = (load_I_counter == 0);
+  assign last_partial_load_I = (load_K_counter == 0);
+  
+  // ======================================== Control FSM ========================================
+
+  typedef enum {IDLE, 
+	        LK_1, LK_2, LK_3, LK_4, LK_5, LK_6, LK_7, LK_8, LK_9, LK_10, LK_11, LK_12,
+                LI_1, LI_2, LI_3, LI_4, LI_shift,
+                CC_1, CC_2, CC_3, CC_4, CC_5, CC_6} fsm_state;
   fsm_state current_state;
   fsm_state next_state;
   always @ (posedge clk or negedge arst_n_in) begin
@@ -136,36 +120,211 @@ module controller_fsm #(
     end
   end
 
-
   always_comb begin
     //defaults: applicable if not overwritten below
     next_state = current_state;
-    write_a = 0;
-    write_b = 0;
-    mac_valid = 0;
+    inc_x = 0;
     running = 1;
-    a_ready = 0;
-    b_ready = 0;
+    ctrl_IDSS_shift = 0 ;
+    ctrl_IDSS_LE_select = 0 ;
+    ctrl_KDS_LE_select = 0 ; // 12 bits 
+    ctrl_ODS_sel_out = 2'b11; 
+    ctrl_ODS_shift = 0;
+    driving_cons = 0; 
+
+    load_I_counter_next = load_I_counter;
+    load_K_counter_next = load_K_counter;
+    load_I_counter_we = 1;
+    load_K_counter_we = 1;
 
     case (current_state)
+      // IDLE
       IDLE: begin
         running = 0;
-        next_state = start ? FETCH_A : IDLE;
+
+        load_K_counter_next = 3'b110;
+        next_state = start ? LK_1 : IDLE;
       end
-      FETCH_A: begin
-        a_ready = 1;
-        write_a = a_valid;
-        next_state = a_valid ? FETCH_B : FETCH_A;
+
+      // LOAD_k
+      LK_1: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0000_0000_0001; 
+
+        next_state = (con_valid) ? LK_2 : current_state;
       end
-      FETCH_B: begin
-        b_ready = 1;
-        write_b = b_valid;
-        next_state = b_valid ? MAC : FETCH_B;
+
+      LK_2: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0000_0000_0010;
+
+        next_state = LK_3;
       end
-      MAC: begin
-        mac_valid = 1;
-        next_state = last_overall ? IDLE : FETCH_A;
+
+      LK_3: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0000_0000_0100;
+
+        next_state = LK_4;
       end
+
+      LK_4: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0000_0000_1000;
+
+        next_state = LK_5;
+      end
+
+      LK_5: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0000_0001_0000;
+
+        next_state = LK_6;
+      end
+
+      LK_6: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0000_0010_0000;
+
+        next_state = LK_7;
+      end
+
+      LK_7: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0000_0100_0000;
+
+        next_state = LK_8;
+      end
+
+      LK_8: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0000_1000_0000;
+
+        next_state = LK_9;
+      end
+
+      LK_9: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0001_0000_0000;
+
+        next_state = LK_10;
+      end
+
+      LK_10: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0010_0000_0000;
+
+        next_state = LK_11;
+      end
+
+      LK_11: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b0100_0000_0000;
+
+        next_state = LK_12;
+      end
+
+      LK_12: begin
+        con_ready = 1;
+        ctrl_KDS_LE_select = 12'b1000_0000_0000;
+
+        load_I_counter_next = 2'b11;
+        load_K_counter_next = load_K_counter - 1;
+        next_state = last_partial_load_K ? LI_1 : LK_1;
+      end
+
+      // LOAD_I
+      LI_1: begin
+        con_ready = 1;
+        ctrl_IDSS_LE_select = 2'b00; 
+
+        next_state = (con_valid) ? LI_2 : current_state;
+      end
+
+      LI_2: begin
+        con_ready = 1;
+        ctrl_IDSS_LE_select = 2'b01; 
+
+        next_state = LI_3;
+      end
+
+      LI_3: begin
+        con_ready = 1;
+        ctrl_IDSS_LE_select = 2'b10;
+
+        next_state = LI_4;
+      end
+
+      LI_4: begin
+        con_ready = 1;
+        ctrl_IDSS_LE_select = 2'b11; 
+
+        next_state = LI_shift;
+      end
+
+      LI_shift: begin
+        ctrl_IDSS_shift = 1;
+
+        load_I_counter_next = load_I_counter - 1;
+        next_state = (last_partial_load_I) ? CC_1 : LI_1;
+      end
+
+      // OPERATION
+      CC_1: begin
+        con_ready = 1;
+        ctrl_IDSS_LE_select = 2'b00;
+        ctrl_ODS_sel_out = 2'b00;
+
+        next_state = CC_2;
+      end
+
+      CC_2: begin
+        con_ready = 1;
+        ctrl_IDSS_LE_select = 2'b01; 
+        ctrl_ODS_sel_out = 2'b01;
+
+        next_state = CC_3;
+      end
+
+      CC_3: begin
+        con_ready = 1;
+        ctrl_IDSS_LE_select = 2'b10;
+        ctrl_IDSS_shift = 1;
+        ctrl_ODS_sel_out = 2'b10;
+
+        next_state = CC_4;
+      end
+
+      CC_4: begin
+        con_ready = 1;
+        ctrl_IDSS_LE_select = 2'b11; 
+        ctrl_ODS_sel_out = 2'b00; 
+        driving_cons = 1; 
+
+        next_state = CC_5;
+      end
+
+      CC_5: begin
+        con_ready = 1;
+        ctrl_ODS_sel_out = 2'b01; 
+        driving_cons = 1; 
+        
+        next_state = CC_6;
+      end
+
+      CC_6: begin
+        con_ready = 1;
+        ctrl_ODS_sel_out = 2'b10; 
+        ctrl_IDSS_shift = 1; 
+        ctrl_ODS_shift = 1; 
+        driving_cons = 1; 
+        inc_x = 1; // Should only happen if output is "valid" --> Delayed due to pipeline
+
+        load_K_counter_next = 3'b110;
+        load_I_counter_next = 2'b11;
+        next_state = (!last_x) ? CC_1 : (!last_y) ? LI_1 : (!last_ch_out) ? LK_1 : IDLE;
+      end
+
     endcase
   end
 endmodule

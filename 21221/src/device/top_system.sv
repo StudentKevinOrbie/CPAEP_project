@@ -10,54 +10,27 @@ module top_system #(
     parameter int INPUT_NB_CHANNELS = 64,
     parameter int OUTPUT_NB_CHANNELS = 64,
     parameter int KERNEL_SIZE = 3
-  ) (input logic clk,
-     input logic arst_n_in,  //asynchronous reset, active low
+  )(input logic clk,
+    input logic arst_n_in,  //asynchronous reset, active low
 
-     //system inputs and outputs
-     input logic [IO_DATA_WIDTH-1:0] a_input,
-     input logic a_valid,
-     output logic a_ready,
-     input logic [IO_DATA_WIDTH-1:0] b_input,
-     input logic b_valid,
-     output logic b_ready,
+    //system input/output connections
+    inout wire [IO_DATA_WIDTH-1:0] con_1,
+    inout wire [IO_DATA_WIDTH-1:0] con_2,
+    inout wire [IO_DATA_WIDTH-1:0] con_3,
 
-     //output
-     output logic signed [IO_DATA_WIDTH-1:0] out,
-     output logic output_valid,
-     output logic [$clog2(FEATURE_MAP_WIDTH)-1:0] output_x,
-     output logic [$clog2(FEATURE_MAP_HEIGHT)-1:0] output_y,
-     output logic [$clog2(OUTPUT_NB_CHANNELS)-1:0] output_ch,
+    input logic con_valid,
+    output logic con_ready,
 
+    //Control
+    output logic output_valid,
+    output logic [$clog2(FEATURE_MAP_WIDTH)-1:0] output_x,
+    output logic [$clog2(FEATURE_MAP_HEIGHT)-1:0] output_y,
+    output logic [$clog2(OUTPUT_NB_CHANNELS)-1:0] output_ch,
+   
+    input logic start,
+    output logic running,
 
-     input logic start,
-     output logic running
-    );
-
-  logic unsigned[$clog2(EXT_MEM_HEIGHT)-1:0] ext_mem_read_addr;
-  logic ext_mem_read_en;
-  logic [EXT_MEM_WIDTH-1:0] ext_mem_qout;
-
-  //write port
-  logic unsigned[$clog2(EXT_MEM_HEIGHT)-1:0] ext_mem_write_addr;
-  logic [EXT_MEM_WIDTH-1:0] ext_mem_din;
-  logic ext_mem_write_en;
-
-
-  //a simple pseudo-2 port memory (can read and write simultaneously)
-  //Feel free to write a single port memory (inout data, either write or read every cycle) to decrease your bandwidth
-  memory #(
-    .WIDTH(EXT_MEM_WIDTH),
-    .HEIGHT(EXT_MEM_HEIGHT),
-    .USED_AS_EXTERNAL_MEM(1)
-  )
-  ext_mem
-  (.clk(clk),
-  .read_addr(ext_mem_read_addr),
-  .read_en(ext_mem_read_en),
-  .qout(ext_mem_qout),
-  .write_addr(ext_mem_write_addr),
-  .din(ext_mem_din),
-  .write_en(ext_mem_write_en)
+    output bit driving_cons
   );
 
   top_chip #(
@@ -70,27 +43,23 @@ module top_system #(
   .INPUT_NB_CHANNELS(INPUT_NB_CHANNELS),
   .OUTPUT_NB_CHANNELS(OUTPUT_NB_CHANNELS),
   .KERNEL_SIZE(KERNEL_SIZE)
-  ) top_chip_i
-   (
+  ) top_chip_i 
+  (
     .clk(clk),
     .arst_n_in(arst_n_in),
 
-    .ext_mem_read_addr(ext_mem_read_addr),
-    .ext_mem_read_en(ext_mem_read_en),
-    .ext_mem_qout(ext_mem_qout),
-    .ext_mem_write_addr(ext_mem_write_addr),
-    .ext_mem_din(ext_mem_din),
-    .ext_mem_write_en(ext_mem_write_en),
+    //system input/output connections
+    .con_1(con_1),
+    .con_2(con_2),
+    .con_3(con_3),
 
-    .a_input(a_input),
-    .a_valid(a_valid),
-    .a_ready(a_ready),
-    .b_input(b_input),
-    .b_valid(b_valid),
-    .b_ready(b_ready),
+    .con_valid (con_valid),
+    .con_ready (con_ready),
 
-    .out(out),
-    .output_valid(output_valid),
+    //Control
+    .driving_cons (driving_cons),
+
+    .output_valid (output_valid),
     .output_x(output_x),
     .output_y(output_y),
     .output_ch(output_ch),

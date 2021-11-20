@@ -6,31 +6,28 @@ interface intf #(
   );
   logic arst_n;
 
-
-
-
   /*#############################
   WHEN ADJUSTING THIS INTERFACE, ADJUST THE ENERGY ADDITIONS AT THE BOTTOM ACCORDINGLY!
   ################################*/
 
-
-
-
-
-
-
-
   // input interface
-  logic [cfg.DATA_WIDTH - 1 : 0] a_input;
-  logic a_valid;
-  logic a_ready;
+  wire [cfg.DATA_WIDTH - 1 : 0] con_1;
+  wire [cfg.DATA_WIDTH - 1 : 0] con_2;
+  wire [cfg.DATA_WIDTH - 1 : 0] con_3;
 
-  logic [cfg.DATA_WIDTH - 1 : 0] b_input;
-  logic b_valid;
-  logic b_ready;
+  logic con_valid;
+  logic con_ready;
+
+  logic dut_driving_cons;
+
+  logic [cfg.DATA_WIDTH-1:0] to_con_1;   //to_bidir_bus;
+  logic [cfg.DATA_WIDTH-1:0] to_con_2;
+  logic [cfg.DATA_WIDTH-1:0] to_con_3;
+  logic [cfg.DATA_WIDTH-1:0] from_con_1; //from_bidir_bus;
+  logic [cfg.DATA_WIDTH-1:0] from_con_2;
+  logic [cfg.DATA_WIDTH-1:0] from_con_3;
 
   // output interface
-  logic signed [cfg.DATA_WIDTH-1:0] output_data;
   logic output_valid;
   logic [$clog2(cfg.FEATURE_MAP_WIDTH)-1:0] output_x;
   logic [$clog2(cfg.FEATURE_MAP_HEIGHT)-1:0] output_y;
@@ -42,43 +39,50 @@ interface intf #(
   default clocking cb @(posedge clk);
     default input #0.01 output #0.01;
     output arst_n;
-    output a_input;
-    output a_valid;
-    input  a_ready;
 
-    output b_input;
-    output b_valid;
-    input  b_ready;
+    output to_con_1;
+    input  from_con_1;
 
-    input output_data;
+    output to_con_2;
+    input  from_con_2;
+
+    output to_con_3;
+    input  from_con_3;
+
+    output con_valid;
+    input  con_ready;
+
     input output_valid;
     input output_x;
     input output_y;
     input output_ch;
 
-
     output start;
     input  running;
+
+    input dut_driving_cons;
   endclocking
 
   modport tb (clocking cb); // testbench's view of the interface
 
+  assign con_1 = (dut_driving_cons) ? 'Z : to_con_1;
+  assign con_2 = (dut_driving_cons) ? 'Z : to_con_2;
+  assign con_3 = (dut_driving_cons) ? 'Z : to_con_3;
+
+  assign from_con_1 = con_1;
+  assign from_con_2 = con_2;
+  assign from_con_3 = con_3;
+
   //ENERGY ESTIMATION:
   always @ (posedge clk) begin
-    if(a_valid && a_ready) begin
-      tbench_top.energy += 1*(cfg.DATA_WIDTH);
+    if(con_valid && con_ready) begin
+      tbench_top.energy += 3*(cfg.DATA_WIDTH);
     end
   end
   always @ (posedge clk) begin
-    if(b_valid && b_ready) begin
-      tbench_top.energy += 1*(cfg.DATA_WIDTH);
+    if(output_valid) begin
+      tbench_top.energy += 3*(cfg.DATA_WIDTH);
     end
   end
-  always @ (posedge clk) begin
-    if(output_valid && 1) begin //no ready here, set to 1
-      tbench_top.energy += 1*(cfg.DATA_WIDTH);
-    end
-  end
-
 
 endinterface
