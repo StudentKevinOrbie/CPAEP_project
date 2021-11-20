@@ -38,7 +38,8 @@ class Driver #(config_t cfg);
       // Load entire Kernel
       for(int kx = cfg.KERNEL_SIZE - 1; kx >= 0; kx++) begin
         for(int inch = 0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
-          $display("[DRV] Testing track_kernel in function");
+          $display("[DRV] outch: %d, kx: %d, inch: %d", outch, kx, inch);
+          $display(tract_kernel);
           assert (!$isunknown(tract_kernel));
           assert (!$isunknown(tract_kernel.kernel[0][kx][inch][outch]));
           assert (!$isunknown(tract_kernel.kernel[1][kx][inch][outch]));
