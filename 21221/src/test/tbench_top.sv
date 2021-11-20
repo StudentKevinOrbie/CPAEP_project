@@ -6,9 +6,6 @@ module tbench_top;
   // and 2) enough calculations are going on, with non-x data (this will be the case for functionally working code)
   localparam int CLK_PERIOD = 2;
 
-
-
-
   localparam int DATA_WIDTH         = 16;
   localparam int ACCUMULATION_WIDTH = 32;
   localparam int EXT_MEM_HEIGHT     = 1<<20;
@@ -61,14 +58,11 @@ module tbench_top;
 
    //system input/output connections
    .con_1        (intf_i.con_1),
-   .con_1_valid  (intf_i.con_1_valid),
-   .con_1_ready  (intf_i.con_1_ready),
    .con_2        (intf_i.con_2),
-   .con_2_valid  (intf_i.con_2_valid),
-   .con_2_ready  (intf_i.con_2_ready),
    .con_3        (intf_i.con_3),
-   .con_3_valid  (intf_i.con_3_valid),
-   .con_3_ready  (intf_i.con_3_ready),
+
+   .con_valid  (intf_i.con_valid),
+   .con_ready  (intf_i.con_ready),
 
    //Control
    .output_valid (intf_i.output_valid),
