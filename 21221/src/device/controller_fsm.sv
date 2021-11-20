@@ -132,8 +132,8 @@ module controller_fsm #(
     ctrl_ODS_shift = 0;
     driving_cons = 0; 
 
-    load_I_counter_next <= load_I_counter;
-    load_K_counter_next <= load_K_counter;
+    load_I_counter_next = load_I_counter;
+    load_K_counter_next = load_K_counter;
     load_I_counter_we = 1;
     load_K_counter_we = 1;
 
@@ -142,7 +142,7 @@ module controller_fsm #(
       IDLE: begin
         running = 0;
 
-        load_K_counter_next <= 3'b110;
+        load_K_counter_next = 3'b110;
         next_state = start ? LK_1 : IDLE;
       end
 
@@ -228,8 +228,8 @@ module controller_fsm #(
         con_ready = 1;
         ctrl_KDS_LE_select = 12'b1000_0000_0000;
 
-        load_I_counter_next <= 2'b11;
-        load_K_counter_next <= load_K_counter - 1;
+        load_I_counter_next = 2'b11;
+        load_K_counter_next = load_K_counter - 1;
         next_state = last_partial_load_K ? LI_1 : LK_1;
       end
 
@@ -265,7 +265,7 @@ module controller_fsm #(
       LI_shift: begin
         ctrl_IDSS_shift = 1;
 
-        load_I_counter_next <= load_I_counter - 1;
+        load_I_counter_next = load_I_counter - 1;
         next_state = (last_partial_load_I) ? CC_1 : LI_1;
       end
 
@@ -320,8 +320,8 @@ module controller_fsm #(
         driving_cons = 1; 
         inc_x = 1; // Should only happen if output is "valid" --> Delayed due to pipeline
 
-        load_K_counter <= 3'b110;
-        load_I_counter <= 2'b11;
+        load_K_counter = 3'b110;
+        load_I_counter = 2'b11;
         next_state = (!last_x) ? CC_1 : (!last_y) ? LI_1 : (!last_ch_out) ? LK_1 : IDLE;
       end
 
