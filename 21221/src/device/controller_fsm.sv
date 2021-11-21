@@ -41,7 +41,7 @@ module controller_fsm #(
   logic reset_x, reset_y, reset_ch_out;
   assign x_next = reset_x ? 0 : x + 1;
   assign y_next = reset_y ? 0 : y + 1;
-  assign ch_out_next = reset_ch_out ? 0 : ch_out + 1;
+  assign ch_out_next = reset_ch_out ? 0 : ch_out + 6;
 
   logic last_x, last_y, last_ch_out;
   assign last_x = x == FEATURE_MAP_WIDTH-1;
@@ -71,10 +71,10 @@ module controller_fsm #(
   logic last_overall;
   assign last_overall   = last_ch_out && last_y && last_x;
 
- // `REG(32, prev_ch_out);
- // assign prev_ch_out_next = ch_out;
- // assign prev_ch_out_we = ch_out_we;
-
+  // Due to two return cycles we need to add
+  logic add_to_chout;
+  logic chout_updated;
+  assign chout_updated = (add_to_chout) ? ch_out + 3 : ch_out;
 
   //mark outputs
   `REG(1, output_valid_reg);
@@ -90,7 +90,7 @@ module controller_fsm #(
                                                 .qout(output_y),
                                                 .we(inc_x ));
   register #(.WIDTH(32)) output_ch_r (.clk(clk), .arst_n_in(arst_n_in),
-                                                .din(ch_out),
+                                                .din(chout_updated),
                                                 .qout(output_ch),
                                                 .we(inc_x ));
 
@@ -146,6 +146,8 @@ module controller_fsm #(
 
     calc_1_done_next = calc_1_done;
     calc_1_done_we = 1;
+
+    add_to_chout = 0;
 
     case (current_state)
       // IDLE
@@ -326,6 +328,7 @@ module controller_fsm #(
         ctrl_ODS_shift = 1;        // ODS: shift second 3 values to out
         ctrl_to_KDS_cycle_enable = 1;
         driving_cons = 1;
+        add_to_chout = 1; // Will add +3 to ch out in the next cycle
         output_valid_reg_next = (calc_1_done) ? 1 : 0;
 
         next_state = CC_6;
