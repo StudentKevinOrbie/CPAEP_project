@@ -145,8 +145,11 @@ class Driver #(config_t cfg);
 
           end
 
-          repeat (12) @(intf_i.cb); // Clear out pipeline
-
+          if (outch == 30 && y == (cfg.FEATURE_MAP_HEIGHT - 2)) begin
+            repeat (11) @(intf_i.cb); // Clear out pipeline
+          end else begin
+            repeat (12) @(intf_i.cb); // Clear out pipeline
+          end
         end
       end
 
