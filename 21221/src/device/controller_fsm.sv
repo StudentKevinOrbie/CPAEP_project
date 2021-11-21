@@ -327,7 +327,7 @@ module controller_fsm #(
         ctrl_ODS_sel_out = 2'b10;  // ODS: in --> reg_3_1
         ctrl_IDSS_shift = 1; 
         driving_cons = 1; 
-        inc_x = (calc_1_done) ? 0 : 1; // happens only if output is "valid" --> Delayed due to pipeline
+        inc_x = (calc_1_done) ? 1 : 0; // happens only if output is "valid" --> Delayed due to pipeline
         calc_1_done_next = 1;
 
         load_K_counter_next = 3'b101; //5
