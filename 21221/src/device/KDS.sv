@@ -21,7 +21,8 @@ module KDS #(
    output logic [IO_DATA_WIDTH-1:0] out [35:0],
 
    // Control
-   input logic [11:0] LE_select
+   input logic [11:0] LE_select,
+   input logic cycle_enable
   );
 
 genvar i;
@@ -37,6 +38,9 @@ for (i=0;i<12;i=i+1) begin
   logic [IO_DATA_WIDTH-1:0] mux_3_out;
   assign mux_3_out = ( LE_select[i] == 1 ) ? v_3:out[(3*i+2)];
 
+  logic read_out_fifo;
+  assign read_out_fifo = (cycle_enable) ? 1'b0 : 1'b1;
+
   fifo #(.WIDTH(IO_DATA_WIDTH), .LOG2_OF_DEPTH(3), .USE_AS_EXTERNAL_FIFO (0)) fifo_1
   (
     .clk (clk),
@@ -46,7 +50,7 @@ for (i=0;i<12;i=i+1) begin
     .input_ready (), // not fifo full
     .qout (out[3*i]),
     .output_valid (), // not empty
-    .output_ready (1'b1)  //read enable
+    .output_ready (read_out_fifo)  //read enable
   );
 
   fifo #(.WIDTH(IO_DATA_WIDTH), .LOG2_OF_DEPTH(3), .USE_AS_EXTERNAL_FIFO (0)) fifo_2
@@ -58,7 +62,7 @@ for (i=0;i<12;i=i+1) begin
     .input_ready (), // not fifo full
     .qout (out[(3*i+1)]),
     .output_valid (), // not empty
-    .output_ready (1'b1)  //read enable
+    .output_ready (read_out_fifo)  //read enable
   );
 
   fifo #(.WIDTH(IO_DATA_WIDTH), .LOG2_OF_DEPTH(3), .USE_AS_EXTERNAL_FIFO (0)) fifo_3
@@ -70,7 +74,7 @@ for (i=0;i<12;i=i+1) begin
     .input_ready (), // not fifo full
     .qout (out[(3*i+2)]),
     .output_valid (), // not empty
-    .output_ready (1'b1)  //read enable
+    .output_ready (read_out_fifo)  //read enable
   );
 end
 endgenerate

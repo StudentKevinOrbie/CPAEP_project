@@ -51,7 +51,10 @@ module top_chip #(
   // ctrl
   logic ctrl_to_IDSS_shift;
   logic [1:0] ctrl_to_IDSS_LE_select;
+
   logic [11:0] ctrl_to_KDS_LE_select;
+  logic ctrl_to_KDS_cycle_enable;
+  
   logic [1:0] ctrl_to_ODS_sel_out;
   logic ctrl_to_ODS_shift;
 
@@ -99,7 +102,8 @@ module top_chip #(
    .out (KDS_to_MAC),
 
    // Control
-   .LE_select (ctrl_to_KDS_LE_select)
+   .LE_select (ctrl_to_KDS_LE_select),
+   .cycle_enable (ctrl_to_KDS_cycle_enable)
   );
 
   super_MAC super_MAC_unit
