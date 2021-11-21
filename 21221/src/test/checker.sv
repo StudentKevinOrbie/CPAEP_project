@@ -102,10 +102,10 @@ class Checker #(config_t cfg);
         expected_2 = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
                       tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch + 1);
         if (tract_output_1.last_load_K == 1) begin
-          expected_3 = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
-                        tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch + 2);
-        end else begin
           expected_3 = 0;
+        end else begin
+          expected_3 = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
+                        tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch + 2);          
         end
 
         // Make sure there are no Xs
