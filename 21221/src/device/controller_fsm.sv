@@ -3,7 +3,7 @@ module controller_fsm #(
   parameter int FEATURE_MAP_WIDTH = 1024,
   parameter int FEATURE_MAP_HEIGHT = 1024,
   parameter int INPUT_NB_CHANNELS = 64,
-  parameter int OUTPUT_NB_CHANNELS = 64,
+  parameter int OUTPUT_NB_CHANNELS = 32,
   parameter int KERNEL_SIZE = 3
   )
   (input logic clk,
@@ -44,8 +44,8 @@ module controller_fsm #(
   assign ch_out_next = reset_ch_out ? 0 : ch_out + 6;
 
   logic last_x, last_y, last_ch_out;
-  assign last_x = x == FEATURE_MAP_WIDTH-1;
-  assign last_y = y == FEATURE_MAP_HEIGHT-1;
+  assign last_x = x == 63;
+  assign last_y = y == 63;
   assign last_ch_out = ch_out == OUTPUT_NB_CHANNELS - 1;
 
   assign reset_x = last_x;
