@@ -32,13 +32,14 @@ class Driver #(config_t cfg);
   // Loads num_kernels to the dut
   task load_kernels(input int start_ch_out, num_kernels, input Transaction_Kernel_configured tract_kernel);
     intf_i.cb.con_valid <= 1;
+    $display("[DRV] Kernel --> Loading kernels %d to %d", start_ch_out, start_ch_out + num_kernels - 1);
 
     for (int outch = start_ch_out; outch < start_ch_out + num_kernels; outch++) begin
 
       // Load entire Kernel
       for(int inch = 0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
         for(int kx = cfg.KERNEL_SIZE - 1; kx >= 0; kx--) begin
-          $display("[DRV] Kernel --> outch: %d, kx: %d, inch: %d", outch, kx, inch);
+          //$display("[DRV] Kernel --> outch: %d, kx: %d, inch: %d", outch, kx, inch);
           //$display(tract_kernel);
           assert (!$isunknown(tract_kernel.kernel[0][kx][inch][outch]));
           assert (!$isunknown(tract_kernel.kernel[1][kx][inch][outch]));
@@ -61,7 +62,7 @@ class Driver #(config_t cfg);
     intf_i.cb.con_valid <= 1;
 
     for(int inch=0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
-      $display("[DRV] Feature --> start_x: %d, start_y: %d, inch: %d", start_x, start_y, inch);
+      //$display("[DRV] Feature --> start_x: %d, start_y: %d, inch: %d", start_x, start_y, inch);
       if (start_x == -1 || start_x >= cfg.FEATURE_MAP_WIDTH) begin
         intf_i.cb.to_con_1 <= 0;
         intf_i.cb.to_con_2 <= 0;
