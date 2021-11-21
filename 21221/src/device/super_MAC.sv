@@ -16,8 +16,10 @@ module super_MAC #(
 
 genvar i;
 
+// ------------------------------ Stage 1 ------------------------------
 // Multipliers: 36
 `REG(ACCUMULATOR_WIDTH*36, mul_out);
+assign mul_out_we = 1;
 
 generate
 for (i=0;i<36;i=i+1) begin
@@ -35,8 +37,11 @@ for (i=0;i<36;i=i+1) begin
 end
 endgenerate
 
+// ------------------------------ Stage 2 ------------------------------
 // ADDER: 18
 `REG(ACCUMULATOR_WIDTH*9, sum_1);
+assign sum_1_we = 1;
+
 logic signed [ACCUMULATOR_WIDTH-1:0] sum_sub_1 [17:0];
 
 //logic [....][ACUMMULATOR_WIDTH-1:0 mul_out_reformatted;
@@ -69,8 +74,11 @@ for (i=0;i<9;i=i+1) begin
 end
 endgenerate
 
+// ------------------------------ Stage 3 ------------------------------
 // ADDER: 4
 `REG(ACCUMULATOR_WIDTH*3, sum_2);
+assign sum_2_we = 1;
+
 logic signed [ACCUMULATOR_WIDTH-1:0] sum_sub_2 [3:0];
 
 generate
@@ -107,6 +115,7 @@ add_2_4
 
 assign sum_2_next[ACCUMULATOR_WIDTH*2 +: ACCUMULATOR_WIDTH] = sum_1[ACCUMULATOR_WIDTH*8 +: ACCUMULATOR_WIDTH];
 
+// ------------------------------ Stage 4 ------------------------------
 // ADDER: 1
 logic signed [ACCUMULATOR_WIDTH-1:0] sum_sub_3;
 logic signed [ACCUMULATOR_WIDTH-1:0] sum_3;
