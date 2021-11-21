@@ -54,7 +54,7 @@ module top_chip #(
 
   logic [11:0] ctrl_to_KDS_LE_select;
   logic ctrl_to_KDS_cycle_enable;
-  
+
   logic [1:0] ctrl_to_ODS_sel_out;
   logic ctrl_to_ODS_shift;
 
@@ -153,6 +153,7 @@ module top_chip #(
   .ctrl_IDSS_LE_select(ctrl_to_IDSS_LE_select),
 
   .ctrl_KDS_LE_select(ctrl_to_KDS_LE_select),
+  .ctrl_to_KDS_cycle_enable(ctrl_to_KDS_cycle_enable),
 
   .ctrl_ODS_shift(ctrl_to_ODS_shift),
   .ctrl_ODS_sel_out(ctrl_to_ODS_sel_out), 
