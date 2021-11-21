@@ -140,6 +140,8 @@ class Driver #(config_t cfg);
 
             load_input_slice(x, y, tract_feature);
 
+            repeat (2) @(intf_i.cb); // 2 Recieve data states
+
           end
         end
       end

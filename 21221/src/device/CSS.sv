@@ -46,9 +46,9 @@ module CSS #(
   `REG(IO_DATA_WIDTH, o_3_3);
   `REG(IO_DATA_WIDTH, o_3_4);
 
-  assign o_1_1_we = LE;
-  assign o_2_1_we = LE;
-  assign o_3_1_we = LE;
+  assign i_1_1_we = LE;
+  assign i_2_1_we = LE;
+  assign i_3_1_we = LE;
 
   assign o_1_2_we = shift;
   assign o_1_3_we = shift;
