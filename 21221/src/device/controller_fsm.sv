@@ -131,7 +131,7 @@ module controller_fsm #(
     running = 1;
     ctrl_IDSS_shift = 0 ;
     ctrl_IDSS_LE_select = 0 ;
-    ctrl_KDS_LE_select = 12'b1111_1111_1111; // Default is shift config for all values
+    ctrl_KDS_LE_select = 12'b0000_0000_0000; // Default is shift config for all values
     ctrl_to_KDS_cycle_enable = 0;
     ctrl_ODS_sel_out = 2'b11; 
     ctrl_ODS_shift = 0;
@@ -287,6 +287,7 @@ module controller_fsm #(
         ctrl_ODS_sel_out = 2'b00; // ODS: in --> reg_1_1
         ctrl_ODS_shift = 1;       // ODS: shift first 3 values
         ctrl_to_KDS_cycle_enable = 1;
+        ctrl_KDS_LE_select = 12'b1111_1111_1111;
 
         next_state = CC_2;
       end
@@ -296,6 +297,7 @@ module controller_fsm #(
         ctrl_IDSS_LE_select = 2'b01; 
         ctrl_ODS_sel_out = 2'b01; // ODS: in --> reg_2_1
         ctrl_to_KDS_cycle_enable = 1;
+        ctrl_KDS_LE_select = 12'b1111_1111_1111;
 
         next_state = CC_3;
       end
@@ -305,6 +307,7 @@ module controller_fsm #(
         ctrl_IDSS_LE_select = 2'b10;
         ctrl_ODS_sel_out = 2'b10; // ODS: in --> reg_3_1
         ctrl_to_KDS_cycle_enable = 1;
+        ctrl_KDS_LE_select = 12'b1111_1111_1111;
 
         next_state = CC_4;
       end
@@ -315,6 +318,7 @@ module controller_fsm #(
         ctrl_ODS_sel_out = 2'b00;  // ODS: in --> reg_1_1
         ctrl_ODS_shift = 1;        // ODS: shift first 3 values to out
         ctrl_to_KDS_cycle_enable = 1;
+        ctrl_KDS_LE_select = 12'b1111_1111_1111;
         output_valid_reg_next = (calc_1_done) ? 1 : 0;
 
         next_state = CC_5;
@@ -325,6 +329,7 @@ module controller_fsm #(
         ctrl_ODS_sel_out = 2'b01;  // ODS: in --> reg_2_1
         ctrl_ODS_shift = 1;        // ODS: shift second 3 values to out
         ctrl_to_KDS_cycle_enable = 1;
+        ctrl_KDS_LE_select = 12'b1111_1111_1111;
         driving_cons = 1;
         output_valid_reg_next = (calc_1_done) ? 1 : 0;
 
@@ -336,6 +341,7 @@ module controller_fsm #(
         ctrl_ODS_sel_out = 2'b10;  // ODS: in --> reg_3_1
         ctrl_IDSS_shift = 1; 
         ctrl_to_KDS_cycle_enable = 1;
+        ctrl_KDS_LE_select = 12'b1111_1111_1111;
         driving_cons = 1; 
         inc_x = (calc_1_done) ? 1 : 0; // happens only if output is "valid" --> Delayed due to pipeline
         calc_1_done_next = 1;
