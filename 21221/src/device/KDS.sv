@@ -39,7 +39,7 @@ for (i=0;i<12;i=i+1) begin
   assign mux_3_out = ( LE_select[i] == 1 ) ? v_3:out[(3*i+2)];
 
   logic read_out_fifo;
-  assign read_out_fifo = (cycle_enable) ? 1'b0 : 1'b1;
+  assign read_out_fifo = (cycle_enable) ? 1'b1 : 1'b0;
 
   fifo #(.WIDTH(IO_DATA_WIDTH), .LOG2_OF_DEPTH(3), .USE_AS_EXTERNAL_FIFO (0)) fifo_1
   (
