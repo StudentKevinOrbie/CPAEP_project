@@ -40,17 +40,17 @@ module IDSS #(
    .row_3 (row_3),
 
    //output
-   .out_1_4 (out[0]),
-   .out_2_4 (out[1]),
-   .out_3_4 (out[2]),
+   .out_1_2 (out[0]),
+   .out_2_2 (out[1]),
+   .out_3_2 (out[2]),
 
    .out_1_3 (out[3]),
    .out_2_3 (out[4]),
    .out_3_3 (out[5]),
 
-   .out_1_2 (out[6]),
-   .out_2_2 (out[7]),
-   .out_3_2 (out[8]),
+   .out_1_4 (out[6]),
+   .out_2_4 (out[7]),
+   .out_3_4 (out[8]),
 
    //output
    .LE (LE_1),     //Load enable of input registers
@@ -67,17 +67,17 @@ module IDSS #(
    .row_3 (row_3),
 
    //output
-   .out_1_4 (out[9]),
-   .out_2_4 (out[10]),
-   .out_3_4 (out[11]),
+   .out_1_2 (out[9]),
+   .out_2_2 (out[10]),
+   .out_3_2 (out[11]),
 
    .out_1_3 (out[12]),
    .out_2_3 (out[13]),
    .out_3_3 (out[14]),
 
-   .out_1_2 (out[15]),
-   .out_2_2 (out[16]),
-   .out_3_2 (out[17]),
+   .out_1_4 (out[15]),
+   .out_2_4 (out[16]),
+   .out_3_4 (out[17]),
 
    //output
    .LE (LE_2),     //Load enable of input registers
@@ -94,17 +94,17 @@ module IDSS #(
    .row_3 (row_3),
 
    //output
-   .out_1_4 (out[18]),
-   .out_2_4 (out[19]),
-   .out_3_4 (out[20]),
+   .out_1_2 (out[18]),
+   .out_2_2 (out[19]),
+   .out_3_2 (out[20]),
 
    .out_1_3 (out[21]),
    .out_2_3 (out[22]),
    .out_3_3 (out[23]),
 
-   .out_1_2 (out[24]),
-   .out_2_2 (out[25]),
-   .out_3_2 (out[26]),
+   .out_1_4 (out[24]),
+   .out_2_4 (out[25]),
+   .out_3_4 (out[26]),
 
    //output
    .LE (LE_3),     //Load enable of input registers
@@ -121,17 +121,17 @@ module IDSS #(
    .row_3 (row_3),
 
    //output
-   .out_1_4 (out[27]),
-   .out_2_4 (out[28]),
-   .out_3_4 (out[29]),
+   .out_1_2 (out[27]),
+   .out_2_2 (out[28]),
+   .out_3_2 (out[29]),
 
    .out_1_3 (out[30]),
    .out_2_3 (out[31]),
    .out_3_3 (out[32]),
 
-   .out_1_2 (out[33]),
-   .out_2_2 (out[34]),
-   .out_3_2 (out[35]),
+   .out_1_4 (out[33]),
+   .out_2_4 (out[34]),
+   .out_3_4 (out[35]),
 
    //output
    .LE (LE_4),     //Load enable of input registers
