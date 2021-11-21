@@ -22,7 +22,8 @@ module KDS #(
 
    // Control
    input logic [11:0] LE_select,
-   input logic cycle_enable
+   input logic cycle_enable,
+   input logic only_readout
   );
 
 genvar i;
@@ -49,7 +50,7 @@ for (i=0;i<12;i=i+1) begin
     .clk (clk),
     .arst_n_in (arst_n_in), //asynchronous reset, active low
     .din (mux_1_out),
-    .input_valid (block_selected || cycle_fifo), //write enable
+    .input_valid ((block_selected || cycle_fifo) & (!only_readout)), //write enable
     .input_ready (), // not fifo full
     .qout (out[3*i]),
     .output_valid (), // not empty
@@ -61,7 +62,7 @@ for (i=0;i<12;i=i+1) begin
     .clk (clk),
     .arst_n_in (arst_n_in), //asynchronous reset, active low
     .din (mux_2_out),
-    .input_valid (block_selected || cycle_fifo), //write enable
+    .input_valid ((block_selected || cycle_fifo) & (!only_readout)), //write enable
     .input_ready (), // not fifo full
     .qout (out[(3*i+1)]),
     .output_valid (), // not empty
@@ -73,7 +74,7 @@ for (i=0;i<12;i=i+1) begin
     .clk (clk),
     .arst_n_in (arst_n_in), //asynchronous reset, active low
     .din (mux_3_out),
-    .input_valid (block_selected || cycle_fifo), //write enable (Write when shifting and when loading block)
+    .input_valid ((block_selected || cycle_fifo) & (!only_readout)), //write enable (Write when shifting and when loading block)
     .input_ready (), // not fifo full
     .qout (out[(3*i+2)]),
     .output_valid (), // not empty

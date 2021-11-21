@@ -103,7 +103,8 @@ module top_chip #(
 
    // Control
    .LE_select (ctrl_to_KDS_LE_select),
-   .cycle_enable (ctrl_to_KDS_cycle_enable)
+   .cycle_enable (ctrl_to_KDS_cycle_enable),
+   .only_readout(ctrl_to_KDS_only_readout)
   );
 
   super_MAC super_MAC_unit
@@ -154,6 +155,7 @@ module top_chip #(
 
   .ctrl_KDS_LE_select(ctrl_to_KDS_LE_select),
   .ctrl_to_KDS_cycle_enable(ctrl_to_KDS_cycle_enable),
+  .ctrl_to_KDS_only_readout(ctrl_to_KDS_only_readout),
 
   .ctrl_ODS_shift(ctrl_to_ODS_shift),
   .ctrl_ODS_sel_out(ctrl_to_ODS_sel_out), 
