@@ -36,8 +36,8 @@ class Driver #(config_t cfg);
     for (int outch = start_ch_out; outch < start_ch_out + num_kernels; outch++) begin
 
       // Load entire Kernel
-      for(int kx = cfg.KERNEL_SIZE - 1; kx >= 0; kx--) begin
-        for(int inch = 0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
+      for(int inch = 0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
+        for(int kx = cfg.KERNEL_SIZE - 1; kx >= 0; kx--) begin
           $display("[DRV] Kernel --> outch: %d, kx: %d, inch: %d", outch, kx, inch);
           //$display(tract_kernel);
           assert (!$isunknown(tract_kernel.kernel[0][kx][inch][outch]));
