@@ -144,18 +144,28 @@ class Checker #(config_t cfg);
           $display("[CHK] Result is incorrect");
           $stop;
         end
-        count++;
+
+        if(tract_output_1.last_load_K == 1) begin
+          count = count + 2;
+        end else begin
+          count = count + 3;
+        end
+        
         if (count == COUNT_ALL_OUTPUT) begin
           break;
         end
+
       end
+
       if(no_error_in_full_output_frame) begin
         $display("[CHK] all the words in the current output are currect");
       end else begin
         $display("[CHK] NOT all the words in the current output are currect");
       end
+
       chk2scb.put(no_error_in_full_output_frame);
     end
+
   endtask
 
 endclass : Checker
