@@ -143,6 +143,9 @@ class Driver #(config_t cfg);
             repeat (2) @(intf_i.cb); // 2 Recieve data states
 
           end
+
+          repeat (12) @(intf_i.cb); // Clear out pipeline
+
         end
       end
 
