@@ -77,7 +77,6 @@ module controller_fsm #(
 
   //mark outputs
   `REG(1, output_valid_reg);
-  assign output_valid_reg_next = inc_x ; // TODO: add another condition
   assign output_valid_reg_we   = 1;
   assign output_valid = output_valid_reg;
 
@@ -135,6 +134,8 @@ module controller_fsm #(
     ctrl_ODS_sel_out = 2'b11; 
     ctrl_ODS_shift = 0;
     driving_cons = 0; 
+
+    output_valid_reg_next = 0;
 
     load_I_counter_next = load_I_counter;
     load_K_counter_next = load_K_counter;
@@ -309,6 +310,7 @@ module controller_fsm #(
         ctrl_IDSS_LE_select = 2'b11; 
         ctrl_ODS_sel_out = 2'b00;  // ODS: in --> reg_1_1
         ctrl_ODS_shift = 1;        // ODS: shift first 3 values to out
+        output_valid_reg_next = (calc_1_done) ? 1 : 0;
 
         next_state = CC_5;
       end
@@ -318,7 +320,7 @@ module controller_fsm #(
         ctrl_ODS_sel_out = 2'b01;  // ODS: in --> reg_2_1
         ctrl_ODS_shift = 1;        // ODS: shift second 3 values to out
         driving_cons = 1;
-        
+        output_valid_reg_next = (calc_1_done) ? 1 : 0;
         next_state = CC_6;
       end
 
