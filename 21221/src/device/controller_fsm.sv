@@ -22,7 +22,7 @@ module controller_fsm #(
   output logic [32-1:0] output_ch,
 
   output logic ctrl_IDSS_shift,
-  output logic [1:0] ctrl_IDSS_LE_select,
+  output logic [2:0] ctrl_IDSS_LE_select,
 
   output logic [11:0] ctrl_KDS_LE_select,
   output logic ctrl_to_KDS_cycle_enable,
@@ -251,28 +251,28 @@ module controller_fsm #(
       // LOAD_I
       LI_1: begin
         con_ready = 1;
-        ctrl_IDSS_LE_select = 2'b00; 
+        ctrl_IDSS_LE_select = 3'b001; 
 
         next_state = (con_valid) ? LI_2 : current_state;
       end
 
       LI_2: begin
         con_ready = 1;
-        ctrl_IDSS_LE_select = 2'b01; 
+        ctrl_IDSS_LE_select = 3'b010; 
 
         next_state = LI_3;
       end
 
       LI_3: begin
         con_ready = 1;
-        ctrl_IDSS_LE_select = 2'b10;
+        ctrl_IDSS_LE_select = 3'b011; 
 
         next_state = LI_4;
       end
 
       LI_4: begin
         con_ready = 1;
-        ctrl_IDSS_LE_select = 2'b11; 
+        ctrl_IDSS_LE_select = 3'b100;
 
         next_state = LI_shift;
       end
@@ -288,7 +288,7 @@ module controller_fsm #(
       // OPERATION
       CC_1: begin
         con_ready = 1;
-        ctrl_IDSS_LE_select = 2'b00;
+        ctrl_IDSS_LE_select = 3'b001; 
         ctrl_ODS_sel_out = 2'b00; // ODS: in --> reg_1_1
         ctrl_ODS_shift = 1;       // ODS: shift first 3 values
         ctrl_to_KDS_cycle_enable = 1;
@@ -298,7 +298,7 @@ module controller_fsm #(
 
       CC_2: begin
         con_ready = 1;
-        ctrl_IDSS_LE_select = 2'b01; 
+        ctrl_IDSS_LE_select = 3'b010; 
         ctrl_ODS_sel_out = 2'b01; // ODS: in --> reg_2_1
         ctrl_to_KDS_cycle_enable = 1;
 
@@ -307,7 +307,7 @@ module controller_fsm #(
 
       CC_3: begin
         con_ready = 1;
-        ctrl_IDSS_LE_select = 2'b10;
+        ctrl_IDSS_LE_select = 3'b011; 
         ctrl_ODS_sel_out = 2'b10; // ODS: in --> reg_3_1
         ctrl_to_KDS_cycle_enable = 1;
 
@@ -316,7 +316,7 @@ module controller_fsm #(
 
       CC_4: begin
         con_ready = 1;
-        ctrl_IDSS_LE_select = 2'b11; 
+        ctrl_IDSS_LE_select = 3'b100;
         ctrl_ODS_sel_out = 2'b00;  // ODS: in --> reg_1_1
         ctrl_ODS_shift = 1;        // ODS: shift first 3 values to out
         ctrl_to_KDS_cycle_enable = 1;
