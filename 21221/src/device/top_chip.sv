@@ -28,7 +28,8 @@ module top_chip #(
     input logic start,
     output logic running,
 
-    output logic driving_cons
+    output logic driving_cons,
+    output logic last_load_K
   );
 
   // ================== SIGNALS ==================
@@ -160,7 +161,8 @@ module top_chip #(
   .ctrl_ODS_shift(ctrl_to_ODS_shift),
   .ctrl_ODS_sel_out(ctrl_to_ODS_sel_out), 
 
-  .driving_cons(driving_cons)
+  .driving_cons(driving_cons),
+  .last_load_K(last_load_K)
   );
 
 endmodule

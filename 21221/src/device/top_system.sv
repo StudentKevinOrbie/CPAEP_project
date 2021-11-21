@@ -30,7 +30,8 @@ module top_system #(
     input logic start,
     output logic running,
 
-    output bit driving_cons
+    output bit driving_cons,
+    output logic last_load_K
   );
 
   top_chip #(
@@ -58,6 +59,7 @@ module top_system #(
 
     //Control
     .driving_cons (driving_cons),
+    .last_load_K(last_load_K),
 
     .output_valid (output_valid),
     .output_x(output_x),

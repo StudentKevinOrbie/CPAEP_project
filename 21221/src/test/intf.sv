@@ -19,6 +19,7 @@ interface intf #(
   logic con_ready;
 
   logic dut_driving_cons;
+  logic last_load_K;
 
   logic [cfg.DATA_WIDTH-1:0] to_con_1;   //to_bidir_bus;
   logic [cfg.DATA_WIDTH-1:0] to_con_2;
@@ -61,6 +62,7 @@ interface intf #(
     input  running;
 
     input dut_driving_cons;
+    input last_load_K;
   endclocking
 
   modport tb (clocking cb); // testbench's view of the interface

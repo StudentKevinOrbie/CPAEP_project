@@ -101,14 +101,19 @@ class Checker #(config_t cfg);
                       tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch);
         expected_2 = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
                       tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch + 1);
-        expected_3 = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
-                      tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch + 2);
+        if (tract_output_1.last_load_K == 1) begin
+          expected_3 = this.golden_output(tract_feature.inputs, tract_kernel.kernel,
+                        tract_output_1.output_x, tract_output_1.output_y, tract_output_1.output_ch + 2);
+        end else begin
+          expected_3 = 0;
+        end
 
         // Make sure there are no Xs
         assert (!$isunknown(tract_output_1.output_data)) else $stop;
         assert (!$isunknown(tract_output_1.output_x)) else $stop;
         assert (!$isunknown(tract_output_1.output_y)) else $stop;
         assert (!$isunknown(tract_output_1.output_ch)) else $stop;
+        assert (!$isunknown(tract_output_1.last_load_K)) else $stop;
         assert (!$isunknown(tract_output_2.output_data)) else $stop;
         assert (!$isunknown(tract_output_3.output_data)) else $stop;
         assert (!$isunknown(expected_1)) else $stop;
@@ -126,7 +131,12 @@ class Checker #(config_t cfg);
         end
         output_tested[tract_output_1.output_x][tract_output_1.output_y][tract_output_1.output_ch] = 1;
 
-        output_correct = (expected_1 == tract_output_1.output_data) & (expected_2 == tract_output_2.output_data) & (expected_3 == tract_output_3.output_data);
+        if (tract_output_1.last_load_K == 1) begin // On last kernels, on the first 2 data connections are used
+          output_correct = (expected_1 == tract_output_1.output_data) & (expected_2 == tract_output_2.output_data);
+        end else begin
+          output_correct = (expected_1 == tract_output_1.output_data) & (expected_2 == tract_output_2.output_data) & (expected_3 == tract_output_3.output_data);
+        end
+
         no_error_in_full_output_frame = no_error_in_full_output_frame & output_correct;
         if(output_correct) begin
           if (verbose) $display("[CHK] Result is correct");

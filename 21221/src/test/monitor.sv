@@ -24,6 +24,7 @@ class Monitor #( config_t cfg);
       tract_output_1.output_x = intf_i.cb.output_x;
       tract_output_1.output_y = intf_i.cb.output_y;
       tract_output_1.output_ch = intf_i.cb.output_ch;
+      tract_output_1.last_load_K = intf_i.cb.last_load_K;
 
       tract_output_2.output_data = intf_i.cb.from_con_2;
       tract_output_3.output_data = intf_i.cb.from_con_3;

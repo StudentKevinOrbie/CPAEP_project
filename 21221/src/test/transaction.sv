@@ -11,4 +11,5 @@ class Transaction_Output_Word #(config_t cfg);
   logic [$clog2(cfg.FEATURE_MAP_WIDTH)-1:0] output_x;
   logic [$clog2(cfg.FEATURE_MAP_HEIGHT)-1:0] output_y;
   logic [$clog2(cfg.OUTPUT_NB_CHANNELS)-1:0] output_ch;
+  logic last_load_K;
 endclass

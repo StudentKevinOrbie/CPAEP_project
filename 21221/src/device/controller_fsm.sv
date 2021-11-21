@@ -31,7 +31,8 @@ module controller_fsm #(
   output logic ctrl_ODS_shift,
   output logic [1:0] ctrl_ODS_sel_out, 
 
-  output logic driving_cons
+  output logic driving_cons,
+  output logic last_load_K
   );
 
   //loop counters (see register.sv for macro)
@@ -109,9 +110,11 @@ module controller_fsm #(
 
   `REG(2, load_I_counter);
   `REG(3, load_K_counter);
+  `REG(2, last_load_K_counter);
   
   assign last_partial_load_K = (load_K_counter == 0);
   assign last_partial_load_I = (load_I_counter == 0);
+  assign last_load_K = output_ch == 30;
   
   // ======================================== Control FSM ========================================
 
@@ -165,7 +168,7 @@ module controller_fsm #(
       IDLE: begin
         running = 0;
 
-        load_K_counter_next = 3'b101; // 5
+        load_K_counter_next = (last_load_K) ? 3'b001 : 3'b101; // 1 or 5 ==> (Load 2 or 6 kernels)
         next_state = start ? LK_1 : IDLE;
       end
 
@@ -342,7 +345,7 @@ module controller_fsm #(
         ctrl_to_KDS_cycle_enable = 1;
         ctrl_to_KDS_only_readout = last_y & last_x; // The last operation cycle clean the FIFO
 
-        output_valid_reg_next = (calc_1_done) ? 1 : 0;
+        output_valid_reg_next = (calc_1_done) ? 1 : 0; 
 
         next_state = CC_5;
       end
@@ -357,7 +360,7 @@ module controller_fsm #(
 
         driving_cons = 1;
         add_to_chout = 1; // Will add +3 to ch out in the next cycle
-        output_valid_reg_next = (calc_1_done) ? 1 : 0;
+        output_valid_reg_next = (calc_1_done && !last_load_K) ? 1 : 0; // On last load, only 1 output cycle needed
 
         next_state = CC_6;
       end
@@ -375,7 +378,7 @@ module controller_fsm #(
         inc_x = (calc_1_done) ? 1 : 0; // happens only if output is "valid" --> Delayed due to pipeline
         calc_1_done_next = 1;
 
-        load_K_counter_next = 3'b101; //5
+        load_K_counter_next = (last_load_K) ? 3'b001 : 3'b101; // 1 or 5 ==> (Load 2 or 6 kernels)
         load_I_counter_next = 2'b10;  //2
         next_state = (!last_x) ? CC_1 : (!last_y) ? LI_1 : (!last_ch_out) ? LK_1 : IDLE;
       end
