@@ -81,18 +81,21 @@ module controller_fsm #(
   assign output_valid_reg_we   = 1;
   assign output_valid = output_valid_reg;
 
+  logic we_chout;
+  assign we_chout = inc_x || add_to_chout;
+
   register #(.WIDTH(32)) output_x_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(x),
                                                 .qout(output_x),
-                                                .we(inc_x ));
+                                                .we(inc_x));
   register #(.WIDTH(32)) output_y_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(y),
                                                 .qout(output_y),
-                                                .we(inc_x ));
+                                                .we(inc_x));
   register #(.WIDTH(32)) output_ch_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(chout_updated),
                                                 .qout(output_ch),
-                                                .we(inc_x ));
+                                                .we(we_chout));
 
   // Counters
   logic last_partial_load_K;
