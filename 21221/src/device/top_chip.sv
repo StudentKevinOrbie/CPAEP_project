@@ -50,7 +50,7 @@ module top_chip #(
 
   // ctrl
   logic ctrl_to_IDSS_shift;
-  logic [1:0] ctrl_to_IDSS_LE_select;
+  logic [2:0] ctrl_to_IDSS_LE_select;
 
   logic [11:0] ctrl_to_KDS_LE_select;
   logic ctrl_to_KDS_cycle_enable;
