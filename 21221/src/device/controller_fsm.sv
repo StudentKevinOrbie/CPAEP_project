@@ -81,6 +81,9 @@ module controller_fsm #(
   assign output_valid_reg_we   = 1;
   assign output_valid = output_valid_reg;
 
+  // Flags
+  `REG(1, calc_1_done); // During the first calculation, no output ready, due to pipelining
+
   logic we_chout;
   assign we_chout = (inc_x || add_to_chout) & calc_1_done;
 
@@ -107,9 +110,6 @@ module controller_fsm #(
   
   assign last_partial_load_K = (load_K_counter == 0);
   assign last_partial_load_I = (load_I_counter == 0);
-
-  // Flags
-  `REG(1, calc_1_done); // During the first calculation, no output ready, due to pipelining
   
   // ======================================== Control FSM ========================================
 
