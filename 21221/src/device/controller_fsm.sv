@@ -73,7 +73,7 @@ module controller_fsm #(
 
   // Due to two return cycles we need to add
   logic add_to_chout;
-  logic chout_updated;
+  logic [31:0] chout_updated;
   assign chout_updated = (add_to_chout) ? ch_out + 3 : ch_out;
 
   //mark outputs
@@ -82,7 +82,7 @@ module controller_fsm #(
   assign output_valid = output_valid_reg;
 
   logic we_chout;
-  assign we_chout = inc_x || add_to_chout;
+  assign we_chout = (inc_x || add_to_chout) & calc_1_done;
 
   register #(.WIDTH(32)) output_x_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(x),
