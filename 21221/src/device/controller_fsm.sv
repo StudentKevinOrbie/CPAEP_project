@@ -84,8 +84,9 @@ module controller_fsm #(
   // Flags
   `REG(1, calc_1_done); // During the first calculation, no output ready, due to pipelining
 
+  logic we_chout_override;
   logic we_chout;
-  assign we_chout = (inc_x || add_to_chout) & calc_1_done;
+  assign we_chout = ((inc_x || add_to_chout) & calc_1_done) || we_chout_override;
 
   register #(.WIDTH(32)) output_x_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(x),
@@ -151,6 +152,7 @@ module controller_fsm #(
     calc_1_done_we = 1;
 
     add_to_chout = 0;
+    we_chout_override = 0;
 
     case (current_state)
       // IDLE
@@ -165,6 +167,7 @@ module controller_fsm #(
       LK_1: begin
         con_ready = 1;
         ctrl_KDS_LE_select = 12'b0000_0000_0001; 
+        we_chout_override = 1;
 
         next_state = (con_valid) ? LK_2 : current_state;
       end

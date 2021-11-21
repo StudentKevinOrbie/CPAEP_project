@@ -61,7 +61,7 @@ class Driver #(config_t cfg);
     intf_i.cb.con_valid <= 1;
 
     for(int inch=0; inch < cfg.INPUT_NB_CHANNELS; inch++) begin
-      $display("[DRV] Feature --> inch: %d", inch);
+      $display("[DRV] Feature --> start_x: %d, start_y: %d, inch: %d", start_x, start_y, inch);
       if (start_x == -1 || start_x >= cfg.FEATURE_MAP_WIDTH) begin
         intf_i.cb.to_con_1 <= 0;
         intf_i.cb.to_con_2 <= 0;
