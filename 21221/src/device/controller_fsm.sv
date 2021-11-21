@@ -167,7 +167,7 @@ module controller_fsm #(
       IDLE: begin
         running = 0;
 
-        load_K_counter_next = (last_load_K) ? 3'b001 : 3'b101; // 1 or 5 ==> (Load 2 or 6 kernels)
+        load_K_counter_next = 3'b101; //  5 ==> (Load 6 kernels)
         next_state = start ? LK_1 : IDLE;
       end
 
@@ -377,7 +377,7 @@ module controller_fsm #(
         inc_x = (calc_1_done) ? 1 : 0; // happens only if output is "valid" --> Delayed due to pipeline
         calc_1_done_next = 1;
 
-        load_K_counter_next = (last_load_K) ? 3'b001 : 3'b101; // 1 or 5 ==> (Load 2 or 6 kernels)
+        load_K_counter_next = (output_ch == 24) ? 3'b001 : 3'b101; // 1 or 5 ==> (Load 2 or 6 kernels)
         load_I_counter_next = 2'b10;  //2
         next_state = (!last_x) ? CC_1 : (!last_y) ? LI_1 : (!last_ch_out) ? LK_1 : IDLE;
       end
