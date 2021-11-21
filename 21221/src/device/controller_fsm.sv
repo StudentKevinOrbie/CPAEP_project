@@ -90,11 +90,11 @@ module controller_fsm #(
   register #(.WIDTH(32)) output_x_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(x),
                                                 .qout(output_x),
-                                                .we(inc_x));
+                                                .we(1'b1));
   register #(.WIDTH(32)) output_y_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(y),
                                                 .qout(output_y),
-                                                .we(inc_x));
+                                                .we(1'b1));
   register #(.WIDTH(32)) output_ch_r (.clk(clk), .arst_n_in(arst_n_in),
                                                 .din(chout_updated),
                                                 .qout(output_ch),
