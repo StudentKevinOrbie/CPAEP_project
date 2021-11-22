@@ -34,7 +34,7 @@ module tbench_top;
 
   //clock
   bit clk;
-  always #(CLK_PERIOD*0.75/2.0) clk = !clk;
+  always #(CLK_PERIOD*0.85/2.0) clk = !clk;
 
   //interface
   intf #(cfg) intf_i (clk);
