@@ -4,7 +4,7 @@ module tbench_top;
   //The code will error* if it too short, but you will get no feedback if it is longer than necessary
   //* if 1) you use the adder and multiplier modules for datapath adders and multipliers and not the plain verilog + and * operators
   // and 2) enough calculations are going on, with non-x data (this will be the case for functionally working code)
-  localparam int CLK_PERIOD = 1;
+  localparam int CLK_PERIOD = 2;
 
   localparam int DATA_WIDTH         = 16;
   localparam int ACCUMULATION_WIDTH = 32;
@@ -34,7 +34,7 @@ module tbench_top;
 
   //clock
   bit clk;
-  always #(CLK_PERIOD*1.0/2.0) clk = !clk;
+  always #(CLK_PERIOD*0.6/2.0) clk = !clk;
 
   //interface
   intf #(cfg) intf_i (clk);
